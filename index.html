@@ -5,6 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Adrian 的禮貌印章 | Adrian's Politeness Stamp Card</title>
 
+  <!-- App Icon & Mobile Home Screen Meta Tags -->
+  <link rel="apple-touch-icon" sizes="180x180" href="icon.png" />
+  <link rel="icon" type="image/png" href="icon.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Adrian印章" />
+  <meta name="theme-color" content="#38bdf8" />
+
   <!-- Tailwind CSS via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
@@ -218,22 +227,8 @@
       </div>
     </div>
 
-    <!-- Parent Lock Status Banner (Kid Mode vs Unlocked Parent Mode) -->
-    <div
-      id="lock-banner"
-      class="mb-4 rounded-2xl px-4 py-2.5 border-2 flex items-center justify-between gap-2 text-xs sm:text-sm font-bold transition-colors"
-    >
-      <!-- Dynamically populated by JavaScript -->
-    </div>
-
     <!-- Header Card: Title, Reward Goal & Progress Bar -->
     <header class="bg-white/95 border-4 border-sky-200 rounded-[2rem] p-5 sm:p-6 shadow-storybook mb-5 text-center relative overflow-hidden">
-      <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-sky-100 text-sky-800 text-xs font-extrabold tracking-wide mb-2">
-        <span>✨ 禮貌小達人</span>
-        <span class="text-sky-400">•</span>
-        <span>Adrian's Politeness Stamp Card</span>
-      </div>
-
       <h1 class="text-2xl sm:text-4xl font-black text-slate-800 tracking-tight leading-tight">
         Adrian 的禮貌印章
       </h1>
@@ -267,7 +262,7 @@
       </div>
     </header>
 
-    <!-- Stamp Icon Picker (6 Fun Kid-Friendly Stamps) -->
+    <!-- Stamp Icon Picker (12 Fun Kid-Friendly Stamps with Chinese Names) -->
     <section
       aria-label="選擇印章圖案"
       class="bg-white/95 border-4 border-amber-200 rounded-3xl p-4 sm:p-5 shadow-storybook mb-5"
@@ -277,12 +272,9 @@
           <span>🎨 揀一個靚印章：</span>
           <span class="text-xs font-semibold text-amber-600">Pick a Stamp</span>
         </h2>
-        <span id="selected-stamp-badge" class="text-xs font-extrabold bg-amber-100 text-amber-800 px-2.5 py-1 rounded-full">
-          目前：⭐
-        </span>
       </div>
 
-      <div id="stamp-picker-row" class="grid grid-cols-6 gap-2 sm:gap-3">
+      <div id="stamp-picker-row" class="grid grid-cols-4 sm:grid-cols-6 gap-2 sm:gap-2.5">
         <!-- Rendered dynamically by JS -->
       </div>
     </section>
@@ -295,10 +287,6 @@
       <div id="stamp-grid" class="grid grid-cols-2 sm:grid-cols-5 gap-3 sm:gap-4 place-items-center">
         <!-- Stamp slots rendered dynamically by JS -->
       </div>
-
-      <p id="grid-helper-hint" class="text-center text-xs sm:text-sm font-bold text-slate-400 mt-5">
-        👆 輕輕撳一下空白圓圈，就蓋到印章喇！
-      </p>
     </section>
 
     <!-- Politeness Habits Quick Reference Strip -->
@@ -511,9 +499,47 @@
           </div>
         </div>
 
-        <!-- 2. Edit Reward Goal -->
-        <div class="bg-slate-50 border-2 border-slate-200/80 rounded-2xl p-4">
-          <label for="reward-input" class="block text-sm font-extrabold text-slate-800 mb-2">
+        <!-- 2. Sound Controls & iPhone/iPad Silent Mode Hint -->
+        <div class="bg-sky-50/80 border-2 border-sky-200 rounded-2xl p-4 space-y-3">
+          <div class="flex items-center justify-between gap-3">
+            <div>
+              <h3 class="text-sm font-extrabold text-sky-950 flex items-center gap-1.5">
+                <span>🔊</span>
+                <span>音效設定 (Sound Effects)</span>
+              </h3>
+              <p class="text-xs text-sky-800/80 mt-0.5">
+                開啟或測試蓋印及慶祝音效
+              </p>
+            </div>
+            <button
+              id="settings-sound-toggle-btn"
+              type="button"
+              role="switch"
+              aria-checked="true"
+              class="shrink-0 w-14 h-8 rounded-full p-1 transition-colors bg-emerald-500 focus:outline-none"
+            >
+              <span id="settings-sound-toggle-knob" class="block w-6 h-6 rounded-full bg-white shadow transition-transform translate-x-6"></span>
+            </button>
+          </div>
+
+          <button
+            id="test-sound-btn"
+            type="button"
+            class="btn-chunky w-full py-2.5 px-4 bg-sky-500 hover:bg-sky-600 text-white font-extrabold text-sm rounded-xl border-b-4 border-sky-700 flex items-center justify-center gap-2"
+          >
+            <span>🔊</span>
+            <span>測試聲音 (Test Sound)</span>
+          </button>
+
+          <p class="text-[11px] sm:text-xs font-semibold text-sky-900/80 bg-white/80 border border-sky-200/80 rounded-xl p-2.5 leading-relaxed">
+            💡 <strong>iPhone / iPad 小提示：</strong>請先關閉機身側面的「靜音開關」（勿顯示橘色）並調高音量，即可聽到音效。<br />
+            <span class="opacity-80">Tip for iPhone/iPad: Turn off Silent Mode (side switch) and raise volume to hear web app sounds.</span>
+          </p>
+        </div>
+
+        <!-- 3. Edit Reward Goal -->
+        <div class="bg-slate-50 border-2 border-slate-200 rounded-2xl p-4 space-y-2.5">
+          <label for="reward-input" class="block text-sm font-extrabold text-slate-800">
             🎁 目標獎勵 (Reward Goal)
           </label>
           <div class="flex gap-2">
@@ -521,34 +547,29 @@
               id="reward-input"
               type="text"
               maxlength="60"
-              placeholder="例如：揀一份小禮物 / 吃雪糕 🍦"
-              class="flex-1 min-w-0 px-3.5 py-2.5 rounded-xl border-2 border-slate-200 focus:border-sky-400 focus:outline-none text-sm font-bold bg-white"
+              placeholder="例如：吃雪糕 / 揀一份小禮物"
+              class="flex-1 min-w-0 px-3.5 py-2.5 rounded-xl border-2 border-slate-200 focus:border-sky-400 focus:outline-none text-sm font-bold text-slate-800 bg-white"
             />
             <button
               id="save-reward-btn"
               type="button"
-              class="btn-chunky shrink-0 px-4 py-2.5 bg-sky-500 hover:bg-sky-600 text-white font-bold text-xs sm:text-sm rounded-xl border-b-4 border-sky-700"
+              class="btn-chunky shrink-0 px-4 py-2.5 bg-sky-500 hover:bg-sky-600 text-white font-black text-sm rounded-xl border-b-4 border-sky-700"
             >
               儲存
             </button>
           </div>
         </div>
 
-        <!-- 3. Card Size Selector (5 / 10 / 15 / 20) -->
-        <div class="bg-slate-50 border-2 border-slate-200/80 rounded-2xl p-4">
-          <h3 class="text-sm font-extrabold text-slate-800 mb-2">
-            📏 印章格數 (Card Size)
-          </h3>
-          <div id="card-size-options" class="grid grid-cols-4 gap-2">
-            <!-- Populated by JS -->
+        <!-- 4. Card Size & Quick Card Actions -->
+        <div class="bg-slate-50 border-2 border-slate-200 rounded-2xl p-4 space-y-3">
+          <div>
+            <h3 class="text-sm font-extrabold text-slate-800 mb-2">
+              🔢 卡片格數 (Card Size)
+            </h3>
+            <div id="card-size-options" class="grid grid-cols-4 gap-2">
+              <!-- Rendered dynamically by JS -->
+            </div>
           </div>
-        </div>
-
-        <!-- 4. Quick Card Actions: Undo Last Stamp & Reset Card (with safe inline confirm) -->
-        <div class="bg-slate-50 border-2 border-slate-200/80 rounded-2xl p-4 space-y-2.5">
-          <h3 class="text-sm font-extrabold text-slate-800">
-            🛠️ 卡片管理 (Card Actions)
-          </h3>
 
           <button
             id="undo-stamp-btn"
@@ -620,79 +641,74 @@
       'use strict';
 
       /* =========================================================
-       * 1. CONSTANTS & DEFAULT CONFIGURATION
+       * 1. CONSTANTS & CONFIGURATION
        * ========================================================= */
       const STORAGE_KEY = 'adrian_politeness_stamps_v2';
 
       const STAMP_ICONS = [
-        { icon: '⭐', label: '星星 Star' },
-        { icon: '🦖', label: '恐龍 Dino' },
-        { icon: '🚀', label: '火箭 Rocket' },
-        { icon: '🚗', label: '車車 Car' },
-        { icon: '🦁', label: '獅子 Lion' },
-        { icon: '🌈', label: '彩虹 Rainbow' },
+        { icon: '⭐', zh: '星星', label: '星星 Star' },
+        { icon: '🦖', zh: '恐龍', label: '恐龍 Dino' },
+        { icon: '🚀', zh: '火箭', label: '火箭 Rocket' },
+        { icon: '🚗', zh: '私家車', label: '私家車 Car' },
+        { icon: '🏎️', zh: '跑車', label: '跑車 Race Car' },
+        { icon: '🚒', zh: '消防車', label: '消防車 Fire Truck' },
+        { icon: '🚓', zh: '警車', label: '警車 Police Car' },
+        { icon: '🚑', zh: '救護車', label: '救護車 Ambulance' },
+        { icon: '🚌', zh: '巴士', label: '巴士 Bus' },
+        { icon: '🚚', zh: '貨車', label: '貨車 Truck' },
+        { icon: '🦁', zh: '獅子', label: '獅子 Lion' },
+        { icon: '🌈', zh: '彩虹', label: '彩虹 Rainbow' },
       ];
 
       const CARD_SIZES = [5, 10, 15, 20];
 
-      const ENCOURAGING_MESSAGES = [
-        '好有禮貌！So polite! 🌟',
-        '太棒了 Adrian！Awesome! 🎉',
-        '懂得說謝謝！Great manners! 💛',
-        '真係好乖！Good job Adrian! 🦖',
-        '禮貌小超人！Polite Superhero! 🚀',
-        '好叻仔呀！Well done! 🌈',
+      const POLITENESS_HABITS = [
+        { id: 'please', emoji: '🙏', zh: '講「唔該 / 請」', en: 'Say Please', theme: 'emerald' },
+        { id: 'thanks', emoji: '💛', zh: '講「多謝」', en: 'Say Thank You', theme: 'amber' },
+        { id: 'greet', emoji: '👋', zh: '主動打招呼', en: 'Say Hello / Bye', theme: 'sky' },
+        { id: 'sorry', emoji: '🤍', zh: '講「對唔住」', en: 'Say Sorry', theme: 'pink' },
+        { id: 'wait', emoji: '⏳', zh: '排隊及等候', en: 'Wait Patiently', theme: 'violet' },
+        { id: 'share', emoji: '🤝', zh: '與人分享', en: 'Share Kindly', theme: 'orange' },
       ];
 
-      const POLITENESS_HABITS = [
-        { id: 'please', emoji: '🙏', zh: '說「請 / 唔該」', en: 'Say Please', theme: 'emerald' },
-        { id: 'thanks', emoji: '🥰', zh: '說「謝謝 / 多謝」', en: 'Say Thank You', theme: 'amber' },
-        { id: 'sorry', emoji: '🤝', zh: '說「對不起」', en: 'Say Sorry', theme: 'sky' },
-        { id: 'greet', emoji: '👋', zh: '主動打招呼', en: 'Say Hi / Bye', theme: 'pink' },
-        { id: 'share', emoji: '🧸', zh: '願意分享', en: 'Willing to Share', theme: 'violet' },
-        { id: 'voice', emoji: '🗣️', zh: '好好說話', en: 'Gentle Voice', theme: 'orange' },
+      const ENCOURAGING_MESSAGES = [
+        '好有禮貌！So polite! 🌟',
+        'Adrian 好叻仔！Great job! 🎉',
+        '多謝你咁乖！Thank you! 💛',
+        '禮貌小達人！Politeness Star! ⭐',
+        '做得好棒！Awesome! 🚀',
+        '爸爸媽媽好開心！So proud of you! 🦖',
       ];
 
       /* =========================================================
-       * 2. STATE MANAGEMENT & LOCALSTORAGE PERSISTENCE
+       * 2. STATE & LOCALSTORAGE PERSISTENCE
        * ========================================================= */
-      function getDefaultState() {
-        return {
-          totalStamps: 10,
-          // Map of slotIndex -> { icon: string, date: string }
-          stamps: {},
-          // Ordered array of stamped indices so Undo removes the exact latest stamp
-          stampOrder: [],
-          selectedIcon: '⭐',
-          rewardText: '揀一份小禮物 / 吃雪糕 🍦',
-          completedCards: 0,
-          soundEnabled: true,
-          parentLockEnabled: true,
-          // Checklist map: habitId -> boolean
-          checklist: {},
-        };
-      }
+      const DEFAULT_STATE = {
+        totalStamps: 10,
+        stamps: {},
+        stampOrder: [],
+        selectedIcon: '⭐',
+        rewardText: '揀一份小禮物 / 吃雪糕 🍦',
+        completedCards: 0,
+        soundEnabled: true,
+        parentLockEnabled: true,
+        checklist: {},
+      };
 
       function loadState() {
-        const defaults = getDefaultState();
         try {
           const raw = localStorage.getItem(STORAGE_KEY);
-          if (!raw) return defaults;
+          if (!raw) return { ...DEFAULT_STATE };
           const parsed = JSON.parse(raw);
-          const merged = {
-            ...defaults,
+          return {
+            ...DEFAULT_STATE,
             ...parsed,
-            stamps: parsed.stamps && typeof parsed.stamps === 'object' ? parsed.stamps : {},
-            stampOrder: Array.isArray(parsed.stampOrder) ? parsed.stampOrder : [],
-            checklist: parsed.checklist && typeof parsed.checklist === 'object' ? parsed.checklist : {},
+            stamps: parsed && typeof parsed.stamps === 'object' && parsed.stamps !== null ? parsed.stamps : {},
+            stampOrder: Array.isArray(parsed && parsed.stampOrder) ? parsed.stampOrder : [],
+            checklist: parsed && typeof parsed.checklist === 'object' && parsed.checklist !== null ? parsed.checklist : {},
           };
-          if (!CARD_SIZES.includes(merged.totalStamps)) {
-            merged.totalStamps = 10;
-          }
-          return merged;
         } catch (err) {
-          console.warn('Could not load saved state, using defaults.', err);
-          return defaults;
+          return { ...DEFAULT_STATE };
         }
       }
 
@@ -700,18 +716,17 @@
         try {
           localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
         } catch (err) {
-          console.warn('Could not save state to localStorage.', err);
+          // Ignore storage quota or private-mode errors gracefully
         }
       }
 
-      let state = loadState();
-
-      // Session-only unlock state: NEVER persisted so page load/refresh always starts locked if Parent Lock is ON
+      const state = loadState();
+      // Auto-lock on every page load when Parent Lock is enabled
       let isUnlocked = !state.parentLockEnabled;
       let pendingUnlockAction = null;
       let currentMathChallenge = null;
       let lastStampedSlot = null;
-      let toastTimeout = null;
+      let toastTimer = null;
 
       /* =========================================================
        * 3. HELPER UTILITIES
@@ -722,11 +737,7 @@
       }
 
       function getStampedCount() {
-        let count = 0;
-        for (let i = 0; i < state.totalStamps; i++) {
-          if (state.stamps[i]) count++;
-        }
-        return count;
+        return Object.keys(state.stamps).filter((idx) => Number(idx) < state.totalStamps && state.stamps[idx]).length;
       }
 
       function getNextEmptySlot() {
@@ -739,34 +750,32 @@
       function showToast(message) {
         const toast = document.getElementById('encouragement-toast');
         const msgEl = document.getElementById('toast-message');
-        msgEl.textContent = message;
+        if (!toast || !msgEl) return;
 
+        msgEl.textContent = message;
         toast.classList.remove('opacity-0', '-translate-y-4');
         toast.classList.add('opacity-100', 'translate-y-0');
 
-        clearTimeout(toastTimeout);
-        toastTimeout = setTimeout(() => {
+        if (toastTimer) clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => {
           toast.classList.add('opacity-0', '-translate-y-4');
           toast.classList.remove('opacity-100', 'translate-y-0');
         }, 2400);
       }
 
       /* =========================================================
-       * 4. WEB AUDIO API SYNTHESIZER (NO EXTERNAL SOUND FILES)
+       * 4. WEB AUDIO API SYNTHESIZER (MOBILE / iOS OPTIMIZED)
        * ========================================================= */
       const SoundManager = {
         ctx: null,
+        unlocked: false,
 
-        ensureContext() {
-          if (!state.soundEnabled) return null;
+        getOrCreateContext() {
           try {
             if (!this.ctx) {
               const AudioCtx = window.AudioContext || window.webkitAudioContext;
               if (!AudioCtx) return null;
               this.ctx = new AudioCtx();
-            }
-            if (this.ctx.state === 'suspended') {
-              this.ctx.resume();
             }
             return this.ctx;
           } catch (err) {
@@ -774,86 +783,182 @@
           }
         },
 
-        playTone(freq, startTime, duration, type = 'sine', volume = 0.16) {
-          const ctx = this.ctx;
+        // One-time global unlock for iPhone/iPad Safari & Android Chrome
+        initUnlockListeners() {
+          const unlockHandler = () => {
+            const ctx = this.getOrCreateContext();
+            if (!ctx) return;
+
+            try {
+              if (ctx.state === 'suspended') {
+                const resumePromise = ctx.resume();
+                if (resumePromise && typeof resumePromise.catch === 'function') {
+                  resumePromise.catch(() => {});
+                }
+              }
+
+              // Play a 1-sample silent buffer so iOS immediately unlocks audio output
+              const silentBuffer = ctx.createBuffer(1, 1, 22050);
+              const source = ctx.createBufferSource();
+              source.buffer = silentBuffer;
+              source.connect(ctx.destination);
+              source.start(0);
+
+              this.unlocked = true;
+              window.removeEventListener('touchstart', unlockHandler);
+              window.removeEventListener('pointerdown', unlockHandler);
+              window.removeEventListener('click', unlockHandler);
+            } catch (err) {
+              // Keep listener if unlock failed
+            }
+          };
+
+          window.addEventListener('touchstart', unlockHandler, { passive: true });
+          window.addEventListener('pointerdown', unlockHandler, { passive: true });
+          window.addEventListener('click', unlockHandler, { passive: true });
+        },
+
+        // Ensures AudioContext is resumed before scheduling any oscillators
+        withReadyContext(playFn, forcePlay = false) {
+          if (!state.soundEnabled && !forcePlay) return;
+          const ctx = this.getOrCreateContext();
           if (!ctx) return;
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
-          osc.type = type;
-          osc.frequency.setValueAtTime(freq, startTime);
 
-          gain.gain.setValueAtTime(0.001, startTime);
-          gain.gain.exponentialRampToValueAtTime(volume, startTime + 0.015);
-          gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+          if (ctx.state === 'suspended') {
+            try {
+              const resumePromise = ctx.resume();
+              if (resumePromise && typeof resumePromise.then === 'function') {
+                resumePromise.then(() => playFn(ctx)).catch(() => {});
+              } else {
+                playFn(ctx);
+              }
+            } catch (err) {
+              // Ignore audio errors gracefully
+            }
+          } else {
+            playFn(ctx);
+          }
+        },
 
-          osc.connect(gain);
-          gain.connect(ctx.destination);
-          osc.start(startTime);
-          osc.stop(startTime + duration + 0.02);
+        // Layered warm triangle + sine oscillator with clean attack/decay envelope
+        playWarmTone(ctx, freq, startTime, duration, volume = 0.28) {
+          const masterGain = ctx.createGain();
+          masterGain.gain.setValueAtTime(0.0001, startTime);
+          masterGain.gain.linearRampToValueAtTime(volume, startTime + 0.015);
+          masterGain.gain.exponentialRampToValueAtTime(0.0008, startTime + duration);
+          masterGain.connect(ctx.destination);
+
+          // Main warm triangle voice
+          const triOsc = ctx.createOscillator();
+          const triGain = ctx.createGain();
+          triOsc.type = 'triangle';
+          triOsc.frequency.setValueAtTime(freq, startTime);
+          triGain.gain.setValueAtTime(0.65, startTime);
+          triOsc.connect(triGain);
+          triGain.connect(masterGain);
+
+          // Clear fundamental sine layer for mobile speaker presence
+          const sineOsc = ctx.createOscillator();
+          const sineGain = ctx.createGain();
+          sineOsc.type = 'sine';
+          sineOsc.frequency.setValueAtTime(freq, startTime);
+          sineGain.gain.setValueAtTime(0.5, startTime);
+          sineOsc.connect(sineGain);
+          sineGain.connect(masterGain);
+
+          triOsc.start(startTime);
+          sineOsc.start(startTime);
+          triOsc.stop(startTime + duration + 0.03);
+          sineOsc.stop(startTime + duration + 0.03);
         },
 
         // Cheerful ascending chime when a new stamp is placed
-        playStamp() {
-          const ctx = this.ensureContext();
-          if (!ctx) return;
-          const now = ctx.currentTime;
-          this.playTone(523.25, now, 0.14, 'triangle', 0.18);        // C5
-          this.playTone(659.25, now + 0.07, 0.16, 'triangle', 0.18); // E5
-          this.playTone(783.99, now + 0.14, 0.22, 'sine', 0.2);      // G5
-          this.playTone(1046.5, now + 0.21, 0.3, 'sine', 0.18);      // C6
+        playStamp(forcePlay = false) {
+          this.withReadyContext((ctx) => {
+            const now = ctx.currentTime + 0.01;
+            this.playWarmTone(ctx, 523.25, now, 0.18, 0.3);          // C5
+            this.playWarmTone(ctx, 659.25, now + 0.08, 0.2, 0.32);   // E5
+            this.playWarmTone(ctx, 783.99, now + 0.16, 0.24, 0.34);  // G5
+            this.playWarmTone(ctx, 1046.5, now + 0.24, 0.36, 0.34);  // C6
+          }, forcePlay);
         },
 
-        // Happy sparkle chime when Adrian taps an already-stamped icon
+        // Playful boing + sparkle sound when Adrian taps an already-stamped icon
         playPlayfulBounce() {
-          const ctx = this.ensureContext();
-          if (!ctx) return;
-          const now = ctx.currentTime;
-          [587.33, 880, 1174.66].forEach((freq, idx) => {
-            this.playTone(freq, now + idx * 0.045, 0.16, 'sine', 0.13);
+          this.withReadyContext((ctx) => {
+            const now = ctx.currentTime + 0.01;
+
+            // Playful upward pitch-bend boing
+            const boingOsc = ctx.createOscillator();
+            const boingGain = ctx.createGain();
+            boingOsc.type = 'triangle';
+            boingOsc.frequency.setValueAtTime(340, now);
+            boingOsc.frequency.exponentialRampToValueAtTime(760, now + 0.12);
+            boingGain.gain.setValueAtTime(0.0001, now);
+            boingGain.gain.linearRampToValueAtTime(0.3, now + 0.015);
+            boingGain.gain.exponentialRampToValueAtTime(0.0008, now + 0.18);
+            boingOsc.connect(boingGain);
+            boingGain.connect(ctx.destination);
+            boingOsc.start(now);
+            boingOsc.stop(now + 0.2);
+
+            // Bright sparkle chimes
+            this.playWarmTone(ctx, 880, now + 0.07, 0.16, 0.26);     // A5
+            this.playWarmTone(ctx, 1174.66, now + 0.13, 0.22, 0.28); // D6
+            this.playWarmTone(ctx, 1318.51, now + 0.19, 0.24, 0.26); // E6
           });
         },
 
-        // Soft pop for UI buttons
+        // Rewarding two-note unlock chime when entering Parent Mode
+        playUnlock() {
+          this.withReadyContext((ctx) => {
+            const now = ctx.currentTime + 0.01;
+            this.playWarmTone(ctx, 659.25, now, 0.15, 0.28);         // E5
+            this.playWarmTone(ctx, 987.77, now + 0.1, 0.26, 0.32);   // B5
+          });
+        },
+
+        // Crisp, audible pop for UI button taps
         playPop() {
-          const ctx = this.ensureContext();
-          if (!ctx) return;
-          const now = ctx.currentTime;
-          this.playTone(620, now, 0.07, 'sine', 0.1);
+          this.withReadyContext((ctx) => {
+            const now = ctx.currentTime + 0.01;
+            this.playWarmTone(ctx, 640, now, 0.09, 0.25);
+          });
         },
 
         // Soft descending chime for Undo
         playUndo() {
-          const ctx = this.ensureContext();
-          if (!ctx) return;
-          const now = ctx.currentTime;
-          this.playTone(440, now, 0.12, 'sine', 0.11);
-          this.playTone(330, now + 0.08, 0.16, 'sine', 0.11);
+          this.withReadyContext((ctx) => {
+            const now = ctx.currentTime + 0.01;
+            this.playWarmTone(ctx, 493.88, now, 0.14, 0.26);         // B4
+            this.playWarmTone(ctx, 392.0, now + 0.09, 0.2, 0.26);    // G4
+          });
         },
 
-        // Gentle error buzz for wrong math answer
+        // Gentle double-tone nudge for wrong math answer
         playError() {
-          const ctx = this.ensureContext();
-          if (!ctx) return;
-          const now = ctx.currentTime;
-          this.playTone(220, now, 0.13, 'sawtooth', 0.06);
-          this.playTone(185, now + 0.11, 0.16, 'sawtooth', 0.06);
+          this.withReadyContext((ctx) => {
+            const now = ctx.currentTime + 0.01;
+            this.playWarmTone(ctx, 260, now, 0.14, 0.25);
+            this.playWarmTone(ctx, 210, now + 0.12, 0.18, 0.25);
+          });
         },
 
         // Full-card celebration fanfare melody
         playFanfare() {
-          const ctx = this.ensureContext();
-          if (!ctx) return;
-          const now = ctx.currentTime;
-          const melody = [
-            { f: 523.25, t: 0.0, d: 0.15 },  // C5
-            { f: 659.25, t: 0.13, d: 0.15 }, // E5
-            { f: 783.99, t: 0.26, d: 0.15 }, // G5
-            { f: 1046.5, t: 0.4, d: 0.24 },  // C6
-            { f: 783.99, t: 0.62, d: 0.14 }, // G5
-            { f: 1046.5, t: 0.76, d: 0.55 }, // C6!
-          ];
-          melody.forEach((n) => {
-            this.playTone(n.f, now + n.t, n.d, 'triangle', 0.2);
+          this.withReadyContext((ctx) => {
+            const now = ctx.currentTime + 0.01;
+            const melody = [
+              { f: 523.25, t: 0.0, d: 0.18, v: 0.3 },   // C5
+              { f: 659.25, t: 0.14, d: 0.18, v: 0.32 }, // E5
+              { f: 783.99, t: 0.28, d: 0.18, v: 0.34 }, // G5
+              { f: 1046.5, t: 0.42, d: 0.28, v: 0.35 }, // C6
+              { f: 783.99, t: 0.66, d: 0.16, v: 0.3 },  // G5
+              { f: 1046.5, t: 0.82, d: 0.62, v: 0.35 }, // C6!
+            ];
+            melody.forEach((n) => {
+              this.playWarmTone(ctx, n.f, now + n.t, n.d, n.v);
+            });
           });
         },
       };
@@ -980,68 +1085,30 @@
         soundBtn.textContent = state.soundEnabled ? '🔊' : '🔇';
         soundBtn.title = state.soundEnabled ? '關閉音效' : '開啟音效';
 
-        // Top Parent Lock Pill & Status Banner
+        // Top Parent Lock Pill
         const lockBtn = document.getElementById('lock-status-btn');
         const lockIcon = document.getElementById('lock-status-icon');
         const lockLabel = document.getElementById('lock-status-label');
-        const lockBanner = document.getElementById('lock-banner');
 
         if (!state.parentLockEnabled) {
           lockBtn.className = 'btn-chunky inline-flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200 border-2 border-slate-200 text-slate-500 rounded-full px-3 py-1.5 text-xs sm:text-sm font-bold shadow-sm focus:outline-none';
           lockIcon.textContent = '🔓';
           lockLabel.textContent = '家長鎖：已關閉';
-          lockBanner.classList.add('hidden');
-          lockBanner.classList.remove('flex');
         } else if (!isUnlocked) {
           // Locked (Kid Mode)
           lockBtn.className = 'btn-chunky inline-flex items-center gap-1.5 bg-amber-100 hover:bg-amber-200 border-2 border-amber-300 text-amber-900 rounded-full px-3 py-1.5 text-xs sm:text-sm font-extrabold shadow-sm focus:outline-none';
           lockIcon.textContent = '🔒';
           lockLabel.textContent = '兒童模式';
-
-          lockBanner.className = 'mb-4 rounded-2xl px-4 py-2.5 border-2 flex items-center justify-between gap-2 text-xs sm:text-sm font-bold bg-amber-50/95 border-amber-200 text-amber-900 shadow-sm';
-          lockBanner.innerHTML = `
-            <div class="flex items-center gap-2 leading-snug">
-              <span class="text-base shrink-0">🔒</span>
-              <span>兒童模式 (Kid Mode) — Adrian 可以撳已蓋印章玩聲效，蓋新印章請爸媽解鎖</span>
-            </div>
-            <button
-              type="button"
-              id="banner-unlock-btn"
-              class="shrink-0 btn-chunky bg-amber-400 hover:bg-amber-500 text-amber-950 font-black text-xs px-3 py-1.5 rounded-xl border-b-2 border-amber-600"
-            >
-              🧮 解鎖
-            </button>
-          `;
-          lockBanner.querySelector('#banner-unlock-btn').addEventListener('click', () => {
-            openUnlockModal(null);
-          });
         } else {
           // Unlocked (Parent Mode)
           lockBtn.className = 'btn-chunky inline-flex items-center gap-1.5 bg-emerald-100 hover:bg-emerald-200 border-2 border-emerald-300 text-emerald-900 rounded-full px-3 py-1.5 text-xs sm:text-sm font-extrabold shadow-sm focus:outline-none';
           lockIcon.textContent = '🔓';
           lockLabel.textContent = '家長模式';
-
-          lockBanner.className = 'mb-4 rounded-2xl px-4 py-2.5 border-2 flex items-center justify-between gap-2 text-xs sm:text-sm font-bold bg-emerald-50/95 border-emerald-300 text-emerald-900 shadow-sm';
-          lockBanner.innerHTML = `
-            <div class="flex items-center gap-2 leading-snug">
-              <span class="text-base shrink-0">🔓</span>
-              <span>家長模式 (Parent Mode) — 現在可以蓋印章及調整設定</span>
-            </div>
-            <button
-              type="button"
-              id="banner-lock-now-btn"
-              class="shrink-0 btn-chunky bg-emerald-500 hover:bg-emerald-600 text-white font-black text-xs px-3 py-1.5 rounded-xl border-b-2 border-emerald-700"
-            >
-              🔒 立即鎖定 (Lock Now)
-            </button>
-          `;
-          lockBanner.querySelector('#banner-lock-now-btn').addEventListener('click', lockNow);
         }
       }
 
       function renderStampPicker() {
         const container = document.getElementById('stamp-picker-row');
-        document.getElementById('selected-stamp-badge').textContent = `目前：${state.selectedIcon}`;
         container.innerHTML = '';
 
         STAMP_ICONS.forEach((item) => {
@@ -1050,12 +1117,17 @@
           btn.type = 'button';
           btn.setAttribute('aria-label', `選擇印章 ${item.label}`);
           btn.className = [
-            'btn-chunky aspect-square rounded-2xl border-2 flex items-center justify-center text-2xl sm:text-3xl focus:outline-none',
+            'btn-chunky rounded-2xl border-2 flex flex-col items-center justify-center py-2 px-1 focus:outline-none',
             isSelected
               ? 'bg-amber-100 border-amber-400 ring-4 ring-amber-200/70 scale-105 shadow-sm'
               : 'bg-slate-50 border-slate-200 hover:bg-amber-50 hover:border-amber-300',
           ].join(' ');
-          btn.textContent = item.icon;
+          btn.innerHTML = `
+            <span class="text-2xl sm:text-3xl leading-none select-none">${item.icon}</span>
+            <span class="text-[11px] sm:text-xs font-extrabold mt-1 leading-tight ${
+              isSelected ? 'text-amber-950' : 'text-slate-600'
+            }">${item.zh}</span>
+          `;
 
           btn.addEventListener('click', () => {
             state.selectedIcon = item.icon;
@@ -1138,14 +1210,6 @@
           grid.appendChild(slotBtn);
         }
 
-        // Update helper hint
-        const helperHint = document.getElementById('grid-helper-hint');
-        if (isLockedView) {
-          helperHint.textContent = '🔒 兒童模式：Adrian 可以撳已蓋嘅印章聽音效，蓋新印章請爸爸媽媽解鎖！';
-        } else {
-          helperHint.textContent = '👆 輕輕撳一下空白圓圈，就蓋到印章喇！';
-        }
-
         lastStampedSlot = null;
       }
 
@@ -1189,6 +1253,15 @@
         toggleBtn.classList.toggle('bg-slate-300', !state.parentLockEnabled);
         toggleKnob.classList.toggle('translate-x-6', state.parentLockEnabled);
         toggleKnob.classList.toggle('translate-x-0', !state.parentLockEnabled);
+
+        // Sound Effects Toggle Switch inside Settings
+        const settingsSoundBtn = document.getElementById('settings-sound-toggle-btn');
+        const settingsSoundKnob = document.getElementById('settings-sound-toggle-knob');
+        settingsSoundBtn.setAttribute('aria-checked', String(state.soundEnabled));
+        settingsSoundBtn.classList.toggle('bg-emerald-500', state.soundEnabled);
+        settingsSoundBtn.classList.toggle('bg-slate-300', !state.soundEnabled);
+        settingsSoundKnob.classList.toggle('translate-x-6', state.soundEnabled);
+        settingsSoundKnob.classList.toggle('translate-x-0', !state.soundEnabled);
 
         // Reward input
         document.getElementById('reward-input').value = state.rewardText;
@@ -1379,7 +1452,7 @@
         isUnlocked = true;
         const action = pendingUnlockAction;
         closeUnlockModal();
-        SoundManager.playPop();
+        SoundManager.playUnlock();
         renderAll();
         showToast('🔓 已進入家長模式 (Parent Mode)');
 
@@ -1462,12 +1535,13 @@
       }
 
       /* =========================================================
-       * 9. EVENT LISTENERS & INITIALIZATION
+       * 9. EVENT BINDING & INITIALIZATION
        * ========================================================= */
       function bindEvents() {
-        // Top Lock Status Pill
+        // Lock Status Pill (Top Bar)
         document.getElementById('lock-status-btn').addEventListener('click', () => {
           if (!state.parentLockEnabled) {
+            SoundManager.playPop();
             openSettingsModal();
           } else if (isUnlocked) {
             lockNow();
@@ -1476,12 +1550,34 @@
           }
         });
 
-        // Sound Toggle
+        // Sound Toggle (Top Header Bar)
         document.getElementById('sound-toggle-btn').addEventListener('click', () => {
           state.soundEnabled = !state.soundEnabled;
           saveState();
           renderHeaderAndLockBanner();
           if (state.soundEnabled) SoundManager.playPop();
+        });
+
+        // Settings: Sound Toggle Switch
+        document.getElementById('settings-sound-toggle-btn').addEventListener('click', () => {
+          state.soundEnabled = !state.soundEnabled;
+          saveState();
+          renderHeaderAndLockBanner();
+          renderSettingsModalContent();
+          if (state.soundEnabled) SoundManager.playPop();
+          showToast(state.soundEnabled ? '🔊 已開啟音效' : '🔇 已靜音');
+        });
+
+        // Settings: Test Sound Button
+        document.getElementById('test-sound-btn').addEventListener('click', () => {
+          if (!state.soundEnabled) {
+            state.soundEnabled = true;
+            saveState();
+            renderHeaderAndLockBanner();
+            renderSettingsModalContent();
+          }
+          SoundManager.playStamp(true);
+          showToast('🔊 播放測試音效！Testing sound!');
         });
 
         // Settings Open / Close
@@ -1627,6 +1723,7 @@
 
       // Initialize app on load
       window.addEventListener('DOMContentLoaded', () => {
+        SoundManager.initUnlockListeners();
         Confetti.init();
         bindEvents();
         renderAll();
