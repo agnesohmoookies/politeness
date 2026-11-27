@@ -484,8 +484,8 @@
           </div>
         </div>
 
-        <!-- 2. Sound Controls & iPhone/iPad Silent Mode Hint -->
-        <div class="bg-sky-50/80 border-2 border-sky-200 rounded-2xl p-4 space-y-3">
+        <!-- 2. Sound Controls -->
+        <div class="bg-sky-50/80 border-2 border-sky-200 rounded-2xl p-4">
           <div class="flex items-center justify-between gap-3">
             <div>
               <h3 class="text-sm font-extrabold text-sky-950 flex items-center gap-1.5">
@@ -493,7 +493,7 @@
                 <span>音效設定 (Sound Effects)</span>
               </h3>
               <p class="text-xs text-sky-800/80 mt-0.5">
-                開啟或測試蓋印及慶祝音效
+                開啟或關閉蓋印及慶祝音效
               </p>
             </div>
             <button
@@ -506,20 +506,6 @@
               <span id="settings-sound-toggle-knob" class="block w-6 h-6 rounded-full bg-white shadow transition-transform translate-x-6"></span>
             </button>
           </div>
-
-          <button
-            id="test-sound-btn"
-            type="button"
-            class="btn-chunky w-full py-2.5 px-4 bg-sky-500 hover:bg-sky-600 text-white font-extrabold text-sm rounded-xl border-b-4 border-sky-700 flex items-center justify-center gap-2"
-          >
-            <span>🔊</span>
-            <span>測試聲音 (Test Sound)</span>
-          </button>
-
-          <p class="text-[11px] sm:text-xs font-semibold text-sky-900/80 bg-white/80 border border-sky-200/80 rounded-xl p-2.5 leading-relaxed">
-            💡 <strong>iPhone / iPad 小提示：</strong>已啟用媒體播放模式，即使開啟靜音開關，只要調高媒體音量即可聽到音效。<br />
-            <span class="opacity-80">Tip: Media playback mode is enabled so sounds can play even while iPhone Silent Mode is on (just raise media volume).</span>
-          </p>
         </div>
 
         <!-- 3. Edit Reward Goal -->
@@ -1232,11 +1218,14 @@
               `第 ${i + 1} 個印章格：${isLockedView ? '需家長解鎖蓋印' : '按此蓋印'}`
             );
 
+            const slotSubLabel = isLockedView ? '🔒 爸媽蓋印' : (isNext ? '撳我蓋印!' : '');
             slotBtn.innerHTML = `
               <span class="text-2xl sm:text-3xl font-black ${isNext && !isLockedView ? 'text-amber-500' : 'text-sky-300'}">${i + 1}</span>
-              <span class="text-[11px] font-bold mt-0.5 ${isNext && !isLockedView ? 'text-amber-600' : 'text-slate-400'}">
-                ${isLockedView ? '🔒 爸媽蓋印' : (isNext ? '撳我蓋印!' : '空白')}
-              </span>
+              ${
+                slotSubLabel
+                  ? `<span class="text-[11px] font-bold mt-0.5 ${isNext && !isLockedView ? 'text-amber-600' : 'text-slate-400'}">${slotSubLabel}</span>`
+                  : ''
+              }
             `;
 
             slotBtn.addEventListener('click', () => handleStampSlot(i));
@@ -1273,7 +1262,16 @@
                 <div class="text-[11px] font-semibold opacity-70 truncate">${habit.en}</div>
               </div>
             </div>
-            ${checked ? '<span class="text-sm shrink-0" title="今日已做到">✅</span>' : ''}
+            ${
+              checked
+                ? `<span class="inline-flex items-center justify-center shrink-0 text-emerald-500" title="今日已做到" aria-label="今日已做到">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <circle cx="12" cy="12" r="10" fill="currentColor"></circle>
+                      <path d="M7.5 12.5L10.5 15.5L16.5 9" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                  </span>`
+                : ''
+            }
           `;
           container.appendChild(card);
         });
@@ -1593,18 +1591,6 @@
           renderSettingsModalContent();
           if (state.soundEnabled) SoundManager.playPop();
           showToast(state.soundEnabled ? '🔊 已開啟音效' : '🔇 已靜音');
-        });
-
-        // Settings: Test Sound Button
-        document.getElementById('test-sound-btn').addEventListener('click', () => {
-          if (!state.soundEnabled) {
-            state.soundEnabled = true;
-            saveState();
-            renderHeaderAndLockBanner();
-            renderSettingsModalContent();
-          }
-          SoundManager.playStamp(true);
-          showToast('🔊 播放測試音效！Testing sound!');
         });
 
         // Settings Open / Close
