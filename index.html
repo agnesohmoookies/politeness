@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Adrian 的禮貌印章 | Adrian's Politeness Stamp Card</title>
+  <title>Adrian 的禮貌印章卡 | Adrian's Politeness Stamp Card</title>
 
   <!-- App Icon & Mobile Home Screen Meta Tags -->
   <link rel="apple-touch-icon" sizes="180x180" href="icon.png" />
@@ -184,42 +184,30 @@
   <!-- Main Responsive App Container -->
   <main class="max-w-3xl mx-auto px-3.5 sm:px-6 py-4 sm:py-7 pb-12">
 
-    <!-- Top Utility Bar: Completed Cards Trophy, Lock Status, Sound & Settings -->
-    <div class="flex flex-wrap items-center justify-between gap-2 mb-3.5">
+    <!-- Top Utility Bar: Completed Cards Trophy, Lock Status & Parent Settings -->
+    <div class="flex items-center justify-between gap-2 mb-4">
       <!-- Completed Cards Counter Badge -->
-      <div class="inline-flex items-center gap-2 bg-white/95 border-2 border-amber-300 rounded-full px-3.5 py-1.5 shadow-sm">
-        <span class="text-xl leading-none" aria-hidden="true">🏆</span>
-        <div class="flex items-baseline gap-1.5">
-          <span class="text-xs sm:text-sm font-bold text-amber-900">已完成卡片</span>
-          <span id="completed-count" class="text-base sm:text-lg font-black text-amber-500">0</span>
-        </div>
+      <div class="inline-flex items-center gap-1.5 bg-white/95 border-2 border-amber-300 rounded-full h-9 sm:h-10 px-3 sm:px-3.5 shadow-sm whitespace-nowrap shrink-0">
+        <span class="text-base sm:text-lg leading-none" aria-hidden="true">🏆</span>
+        <span class="text-xs sm:text-sm font-bold text-amber-900">已完成卡片</span>
+        <span id="completed-count" class="text-sm sm:text-base font-black text-amber-500">0</span>
       </div>
 
-      <!-- Controls: Parent Lock Indicator, Sound Toggle, Parent Settings -->
-      <div class="flex items-center gap-2 flex-wrap">
+      <!-- Controls: Single Parent Lock Pill & Parent Settings -->
+      <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
         <button
           id="lock-status-btn"
           type="button"
-          class="btn-chunky inline-flex items-center gap-1.5 bg-amber-100 hover:bg-amber-200 border-2 border-amber-300 text-amber-900 rounded-full px-3 py-1.5 text-xs sm:text-sm font-extrabold shadow-sm focus:outline-none"
+          class="btn-chunky inline-flex items-center gap-1 bg-amber-100 hover:bg-amber-200 border-2 border-amber-300 text-amber-900 rounded-full h-9 sm:h-10 px-2.5 sm:px-3.5 text-xs sm:text-sm font-extrabold shadow-sm whitespace-nowrap focus:outline-none"
         >
           <span id="lock-status-icon" aria-hidden="true">🔒</span>
           <span id="lock-status-label">兒童模式</span>
         </button>
 
         <button
-          id="sound-toggle-btn"
-          type="button"
-          aria-label="切換音效"
-          class="btn-chunky inline-flex items-center justify-center w-10 h-10 bg-white/95 border-2 border-sky-200 rounded-full text-lg shadow-sm hover:bg-sky-50 focus:outline-none"
-          title="開啟/關閉音效"
-        >
-          🔊
-        </button>
-
-        <button
           id="open-settings-btn"
           type="button"
-          class="btn-chunky inline-flex items-center gap-1.5 bg-white/95 hover:bg-slate-50 border-2 border-slate-200 text-slate-700 rounded-full px-3.5 py-1.5 text-xs sm:text-sm font-bold shadow-sm focus:outline-none"
+          class="btn-chunky inline-flex items-center gap-1 bg-white/95 hover:bg-slate-50 border-2 border-slate-200 text-slate-700 rounded-full h-9 sm:h-10 px-2.5 sm:px-3.5 text-xs sm:text-sm font-bold shadow-sm whitespace-nowrap focus:outline-none"
         >
           <span aria-hidden="true">⚙️</span>
           <span>家長設定</span>
@@ -230,7 +218,7 @@
     <!-- Header Card: Title, Reward Goal & Progress Bar -->
     <header class="bg-white/95 border-4 border-sky-200 rounded-[2rem] p-5 sm:p-6 shadow-storybook mb-5 text-center relative overflow-hidden">
       <h1 class="text-2xl sm:text-4xl font-black text-slate-800 tracking-tight leading-tight">
-        Adrian 的禮貌印章
+        Adrian 的禮貌印章卡
       </h1>
 
       <!-- Reward Goal Box -->
@@ -269,7 +257,7 @@
     >
       <div class="flex items-center justify-between mb-3">
         <h2 class="text-sm sm:text-base font-extrabold text-amber-950 flex items-center gap-1.5">
-          <span>🎨 揀一個靚印章：</span>
+          <span>揀一個靚印章：</span>
           <span class="text-xs font-semibold text-amber-600">Pick a Stamp</span>
         </h2>
       </div>
@@ -296,7 +284,7 @@
     >
       <div class="flex items-center justify-between mb-3">
         <h2 class="text-sm sm:text-base font-extrabold text-emerald-900 flex items-center gap-1.5">
-          <span>💛 禮貌小任務：</span>
+          <span>禮貌小任務：</span>
           <span class="text-xs font-semibold text-emerald-600">How to earn a stamp</span>
         </h2>
       </div>
@@ -320,12 +308,9 @@
     <div id="unlock-card" class="animate-pop-in bg-white border-4 border-amber-300 rounded-[2rem] max-w-sm w-full p-5 sm:p-6 shadow-2xl">
       <!-- Modal Header -->
       <div class="flex items-center justify-between mb-3">
-        <div class="flex items-center gap-2.5">
-          <span class="text-2xl" aria-hidden="true">🧮</span>
-          <div>
-            <h2 id="unlock-title" class="text-lg font-black text-slate-800 leading-tight">家長解鎖</h2>
-            <p class="text-xs font-bold text-slate-400">Parent Unlock</p>
-          </div>
+        <div>
+          <h2 id="unlock-title" class="text-lg font-black text-slate-800 leading-tight">家長解鎖</h2>
+          <p class="text-xs font-bold text-slate-400">Parent Unlock</p>
         </div>
         <button
           id="close-unlock-btn"
@@ -392,7 +377,7 @@
         type="button"
         class="btn-chunky mt-3 w-full py-3.5 bg-emerald-500 hover:bg-emerald-600 text-white font-black text-base rounded-2xl border-b-4 border-emerald-700 shadow-sm"
       >
-        🔓 解鎖 (Unlock)
+        解鎖 (Unlock)
       </button>
     </div>
   </div>
@@ -532,8 +517,8 @@
           </button>
 
           <p class="text-[11px] sm:text-xs font-semibold text-sky-900/80 bg-white/80 border border-sky-200/80 rounded-xl p-2.5 leading-relaxed">
-            💡 <strong>iPhone / iPad 小提示：</strong>請先關閉機身側面的「靜音開關」（勿顯示橘色）並調高音量，即可聽到音效。<br />
-            <span class="opacity-80">Tip for iPhone/iPad: Turn off Silent Mode (side switch) and raise volume to hear web app sounds.</span>
+            💡 <strong>iPhone / iPad 小提示：</strong>已啟用媒體播放模式，即使開啟靜音開關，只要調高媒體音量即可聽到音效。<br />
+            <span class="opacity-80">Tip: Media playback mode is enabled so sounds can play even while iPhone Silent Mode is on (just raise media volume).</span>
           </p>
         </div>
 
@@ -576,7 +561,6 @@
             type="button"
             class="btn-chunky w-full py-3 px-4 bg-amber-100 hover:bg-amber-200 border-2 border-amber-300 text-amber-950 font-extrabold text-sm rounded-xl flex items-center justify-center gap-2"
           >
-            <span>↩️</span>
             <span>復原最後一個印章 (Undo Last Stamp)</span>
           </button>
 
@@ -585,7 +569,6 @@
             type="button"
             class="btn-chunky w-full py-3 px-4 bg-rose-50 hover:bg-rose-100 border-2 border-rose-200 text-rose-700 font-extrabold text-sm rounded-xl flex items-center justify-center gap-2"
           >
-            <span>🔄</span>
             <span>重設卡片 (Reset Card)</span>
           </button>
 
@@ -617,7 +600,7 @@
         <div class="bg-emerald-50/70 border-2 border-emerald-200 rounded-2xl p-4">
           <div class="flex items-center justify-between mb-2">
             <h3 class="text-sm font-extrabold text-emerald-950">
-              💛 禮貌好習慣清單 (Politeness Checklist)
+              禮貌好習慣清單 (Politeness Checklist)
             </h3>
             <span class="text-[11px] font-bold text-emerald-600">可勾選今日表現</span>
           </div>
@@ -764,11 +747,65 @@
       }
 
       /* =========================================================
-       * 4. WEB AUDIO API SYNTHESIZER (MOBILE / iOS OPTIMIZED)
+       * 4. WEB AUDIO API SYNTHESIZER (MOBILE / iOS SILENT-MODE READY)
        * ========================================================= */
       const SoundManager = {
         ctx: null,
         unlocked: false,
+        silentAudioEl: null,
+
+        // Build a tiny valid silent WAV Blob in memory to switch iOS audio session to Playback mode
+        createSilentWavUrl() {
+          const sampleRate = 8000;
+          const numSamples = 400; // 50ms of silence
+          const buffer = new ArrayBuffer(44 + numSamples * 2);
+          const view = new DataView(buffer);
+          const writeStr = (offset, str) => {
+            for (let i = 0; i < str.length; i++) view.setUint8(offset + i, str.charCodeAt(i));
+          };
+          writeStr(0, 'RIFF');
+          view.setUint32(4, 36 + numSamples * 2, true);
+          writeStr(8, 'WAVE');
+          writeStr(12, 'fmt ');
+          view.setUint32(16, 16, true);
+          view.setUint16(20, 1, true); // PCM
+          view.setUint16(22, 1, true); // Mono
+          view.setUint32(24, sampleRate, true);
+          view.setUint32(28, sampleRate * 2, true);
+          view.setUint16(32, 2, true);
+          view.setUint16(34, 16, true);
+          writeStr(36, 'data');
+          view.setUint32(40, numSamples * 2, true);
+          return URL.createObjectURL(new Blob([buffer], { type: 'audio/wav' }));
+        },
+
+        // Switch iOS Safari to Playback audio session so chimes play even when Silent switch is ON
+        enableSilentModePlayback() {
+          try {
+            if (navigator.audioSession && 'type' in navigator.audioSession) {
+              navigator.audioSession.type = 'playback';
+            }
+          } catch (err) {
+            // Ignore unsupported browsers
+          }
+
+          try {
+            if (!this.silentAudioEl) {
+              const audio = document.createElement('audio');
+              audio.setAttribute('playsinline', '');
+              audio.setAttribute('webkit-playsinline', '');
+              audio.preload = 'auto';
+              audio.src = this.createSilentWavUrl();
+              this.silentAudioEl = audio;
+            }
+            const playPromise = this.silentAudioEl.play();
+            if (playPromise && typeof playPromise.catch === 'function') {
+              playPromise.catch(() => {});
+            }
+          } catch (err) {
+            // Ignore playback errors gracefully
+          }
+        },
 
         getOrCreateContext() {
           try {
@@ -786,6 +823,7 @@
         // One-time global unlock for iPhone/iPad Safari & Android Chrome
         initUnlockListeners() {
           const unlockHandler = () => {
+            this.enableSilentModePlayback();
             const ctx = this.getOrCreateContext();
             if (!ctx) return;
 
@@ -797,7 +835,7 @@
                 }
               }
 
-              // Play a 1-sample silent buffer so iOS immediately unlocks audio output
+              // Play a 1-sample silent buffer so iOS immediately unlocks Web Audio output
               const silentBuffer = ctx.createBuffer(1, 1, 22050);
               const source = ctx.createBufferSource();
               source.buffer = silentBuffer;
@@ -821,6 +859,7 @@
         // Ensures AudioContext is resumed before scheduling any oscillators
         withReadyContext(playFn, forcePlay = false) {
           if (!state.soundEnabled && !forcePlay) return;
+          this.enableSilentModePlayback();
           const ctx = this.getOrCreateContext();
           if (!ctx) return;
 
@@ -1080,28 +1119,24 @@
         document.getElementById('progress-counter').textContent = `${stampedCount} / ${state.totalStamps}`;
         document.getElementById('progress-bar-fill').style.width = `${percent}%`;
 
-        // Sound button
-        const soundBtn = document.getElementById('sound-toggle-btn');
-        soundBtn.textContent = state.soundEnabled ? '🔊' : '🔇';
-        soundBtn.title = state.soundEnabled ? '關閉音效' : '開啟音效';
-
-        // Top Parent Lock Pill
+        // Single Top Parent Lock Pill (consistent height & alignment across all states)
         const lockBtn = document.getElementById('lock-status-btn');
         const lockIcon = document.getElementById('lock-status-icon');
         const lockLabel = document.getElementById('lock-status-label');
+        const basePillClass = 'btn-chunky inline-flex items-center gap-1 border-2 rounded-full h-9 sm:h-10 px-2.5 sm:px-3.5 text-xs sm:text-sm shadow-sm whitespace-nowrap focus:outline-none';
 
         if (!state.parentLockEnabled) {
-          lockBtn.className = 'btn-chunky inline-flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200 border-2 border-slate-200 text-slate-500 rounded-full px-3 py-1.5 text-xs sm:text-sm font-bold shadow-sm focus:outline-none';
+          lockBtn.className = `${basePillClass} bg-slate-100 hover:bg-slate-200 border-slate-200 text-slate-500 font-bold`;
           lockIcon.textContent = '🔓';
-          lockLabel.textContent = '家長鎖：已關閉';
+          lockLabel.textContent = '未鎖定';
         } else if (!isUnlocked) {
           // Locked (Kid Mode)
-          lockBtn.className = 'btn-chunky inline-flex items-center gap-1.5 bg-amber-100 hover:bg-amber-200 border-2 border-amber-300 text-amber-900 rounded-full px-3 py-1.5 text-xs sm:text-sm font-extrabold shadow-sm focus:outline-none';
+          lockBtn.className = `${basePillClass} bg-amber-100 hover:bg-amber-200 border-amber-300 text-amber-900 font-extrabold`;
           lockIcon.textContent = '🔒';
           lockLabel.textContent = '兒童模式';
         } else {
           // Unlocked (Parent Mode)
-          lockBtn.className = 'btn-chunky inline-flex items-center gap-1.5 bg-emerald-100 hover:bg-emerald-200 border-2 border-emerald-300 text-emerald-900 rounded-full px-3 py-1.5 text-xs sm:text-sm font-extrabold shadow-sm focus:outline-none';
+          lockBtn.className = `${basePillClass} bg-emerald-100 hover:bg-emerald-200 border-emerald-300 text-emerald-900 font-extrabold`;
           lockIcon.textContent = '🔓';
           lockLabel.textContent = '家長模式';
         }
@@ -1548,14 +1583,6 @@
           } else {
             openUnlockModal(null);
           }
-        });
-
-        // Sound Toggle (Top Header Bar)
-        document.getElementById('sound-toggle-btn').addEventListener('click', () => {
-          state.soundEnabled = !state.soundEnabled;
-          saveState();
-          renderHeaderAndLockBanner();
-          if (state.soundEnabled) SoundManager.playPop();
         });
 
         // Settings: Sound Toggle Switch
