@@ -1,0 +1,1637 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adrian 的禮貌印章 | Adrian's Politeness Stamp Card</title>
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Inter + Noto Sans TC for crisp bilingual typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800;900&family=Noto+Sans+TC:wght@500;700;900&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    /* =========================================================
+     * BASE THEME & KID-FRIENDLY STORYBOOK STYLING
+     * ========================================================= */
+    body {
+      font-family: 'Inter', 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+      background:
+        radial-gradient(circle at 12% 10%, rgba(254, 240, 138, 0.72) 0%, transparent 38%),
+        radial-gradient(circle at 88% 12%, rgba(186, 230, 253, 0.75) 0%, transparent 40%),
+        radial-gradient(circle at 50% 92%, rgba(254, 205, 211, 0.52) 0%, transparent 45%),
+        linear-gradient(180deg, #fffdf5 0%, #f0f9ff 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Warm storybook elevation shadow */
+    .shadow-storybook {
+      box-shadow: 0 10px 26px -6px rgba(14, 116, 144, 0.12), 0 4px 10px -4px rgba(245, 158, 11, 0.14);
+    }
+
+    /* Tactile chunky button feel */
+    .btn-chunky {
+      transition: transform 0.12s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.12s ease, background-color 0.15s ease;
+    }
+    .btn-chunky:active {
+      transform: translateY(2px) scale(0.97);
+    }
+
+    /* =========================================================
+     * ANIMATIONS (RUBBER STAMP, PLAYFUL BOUNCE, SPARKLES, SHAKE)
+     * ========================================================= */
+    @keyframes stampSlam {
+      0% {
+        opacity: 0;
+        transform: scale(2.35) rotate(-18deg);
+      }
+      55% {
+        opacity: 1;
+        transform: scale(0.84) rotate(calc(var(--stamp-rot, 0deg) + 6deg));
+      }
+      78% {
+        transform: scale(1.12) rotate(calc(var(--stamp-rot, 0deg) - 4deg));
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) rotate(var(--stamp-rot, 0deg));
+      }
+    }
+    .animate-stamp-slam {
+      animation: stampSlam 0.48s cubic-bezier(0.22, 1.28, 0.36, 1) forwards;
+    }
+
+    @keyframes stampPlayBounce {
+      0%, 100% {
+        transform: scale(1) rotate(var(--stamp-rot, 0deg));
+      }
+      35% {
+        transform: scale(1.28) rotate(calc(var(--stamp-rot, 0deg) - 9deg));
+      }
+      65% {
+        transform: scale(0.9) rotate(calc(var(--stamp-rot, 0deg) + 7deg));
+      }
+    }
+    .animate-stamp-bounce {
+      animation: stampPlayBounce 0.42s cubic-bezier(0.22, 1.25, 0.36, 1);
+    }
+
+    @keyframes popIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.9) translateY(10px);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+    .animate-pop-in {
+      animation: popIn 0.24s cubic-bezier(0.22, 1.15, 0.36, 1) forwards;
+    }
+
+    @keyframes shakeError {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-8px); }
+      40% { transform: translateX(8px); }
+      60% { transform: translateX(-6px); }
+      80% { transform: translateX(6px); }
+    }
+    .animate-shake {
+      animation: shakeError 0.36s ease-in-out;
+    }
+
+    @keyframes gentlePulse {
+      0%, 100% {
+        box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.48);
+      }
+      50% {
+        box-shadow: 0 0 0 8px rgba(251, 191, 36, 0);
+      }
+    }
+    .next-slot-highlight {
+      animation: gentlePulse 2s infinite;
+    }
+
+    /* Floating Sparkle Particles */
+    @keyframes sparkleFloat {
+      0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(0.5) rotate(0deg);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(var(--tx, 0px), var(--ty, -42px)) scale(1.25) rotate(140deg);
+      }
+    }
+    .sparkle-particle {
+      position: absolute;
+      pointer-events: none;
+      z-index: 30;
+      font-size: 1.15rem;
+      line-height: 1;
+      animation: sparkleFloat 0.68s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* Custom subtle scrollbar for modals */
+    .custom-scroll::-webkit-scrollbar {
+      width: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background-color: rgba(148, 163, 184, 0.45);
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="text-slate-800 selection:bg-amber-200 selection:text-amber-900">
+
+  <!-- Full-Screen Responsive Confetti Canvas (for Card Completion Celebration) -->
+  <canvas
+    id="confetti-canvas"
+    class="fixed inset-0 w-full h-full pointer-events-none z-50"
+    aria-hidden="true"
+  ></canvas>
+
+  <!-- Floating Bilingual Encouragement Toast -->
+  <div
+    id="encouragement-toast"
+    role="status"
+    aria-live="polite"
+    class="fixed top-4 left-1/2 -translate-x-1/2 z-50 pointer-events-none transition-all duration-300 opacity-0 -translate-y-4 w-[92%] max-w-sm"
+  >
+    <div class="bg-gradient-to-r from-amber-400 via-yellow-400 to-orange-400 text-amber-950 border-4 border-white rounded-full px-5 py-2.5 shadow-xl text-center font-black text-sm sm:text-base tracking-wide">
+      <span id="toast-message">好有禮貌！So polite! 🌟</span>
+    </div>
+  </div>
+
+  <!-- Main Responsive App Container -->
+  <main class="max-w-3xl mx-auto px-3.5 sm:px-6 py-4 sm:py-7 pb-12">
+
+    <!-- Top Utility Bar: Completed Cards Trophy, Lock Status, Sound & Settings -->
+    <div class="flex flex-wrap items-center justify-between gap-2 mb-3.5">
+      <!-- Completed Cards Counter Badge -->
+      <div class="inline-flex items-center gap-2 bg-white/95 border-2 border-amber-300 rounded-full px-3.5 py-1.5 shadow-sm">
+        <span class="text-xl leading-none" aria-hidden="true">🏆</span>
+        <div class="flex items-baseline gap-1.5">
+          <span class="text-xs sm:text-sm font-bold text-amber-900">已完成卡片</span>
+          <span id="completed-count" class="text-base sm:text-lg font-black text-amber-500">0</span>
+        </div>
+      </div>
+
+      <!-- Controls: Parent Lock Indicator, Sound Toggle, Parent Settings -->
+      <div class="flex items-center gap-2 flex-wrap">
+        <button
+          id="lock-status-btn"
+          type="button"
+          class="btn-chunky inline-flex items-center gap-1.5 bg-amber-100 hover:bg-amber-200 border-2 border-amber-300 text-amber-900 rounded-full px-3 py-1.5 text-xs sm:text-sm font-extrabold shadow-sm focus:outline-none"
+        >
+          <span id="lock-status-icon" aria-hidden="true">🔒</span>
+          <span id="lock-status-label">兒童模式</span>
+        </button>
+
+        <button
+          id="sound-toggle-btn"
+          type="button"
+          aria-label="切換音效"
+          class="btn-chunky inline-flex items-center justify-center w-10 h-10 bg-white/95 border-2 border-sky-200 rounded-full text-lg shadow-sm hover:bg-sky-50 focus:outline-none"
+          title="開啟/關閉音效"
+        >
+          🔊
+        </button>
+
+        <button
+          id="open-settings-btn"
+          type="button"
+          class="btn-chunky inline-flex items-center gap-1.5 bg-white/95 hover:bg-slate-50 border-2 border-slate-200 text-slate-700 rounded-full px-3.5 py-1.5 text-xs sm:text-sm font-bold shadow-sm focus:outline-none"
+        >
+          <span aria-hidden="true">⚙️</span>
+          <span>家長設定</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Parent Lock Status Banner (Kid Mode vs Unlocked Parent Mode) -->
+    <div
+      id="lock-banner"
+      class="mb-4 rounded-2xl px-4 py-2.5 border-2 flex items-center justify-between gap-2 text-xs sm:text-sm font-bold transition-colors"
+    >
+      <!-- Dynamically populated by JavaScript -->
+    </div>
+
+    <!-- Header Card: Title, Reward Goal & Progress Bar -->
+    <header class="bg-white/95 border-4 border-sky-200 rounded-[2rem] p-5 sm:p-6 shadow-storybook mb-5 text-center relative overflow-hidden">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-sky-100 text-sky-800 text-xs font-extrabold tracking-wide mb-2">
+        <span>✨ 禮貌小達人</span>
+        <span class="text-sky-400">•</span>
+        <span>Adrian's Politeness Stamp Card</span>
+      </div>
+
+      <h1 class="text-2xl sm:text-4xl font-black text-slate-800 tracking-tight leading-tight">
+        Adrian 的禮貌印章
+      </h1>
+
+      <!-- Reward Goal Box -->
+      <div class="mt-3.5 inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-50 via-yellow-50 to-orange-50 border-2 border-amber-300 rounded-2xl px-4 py-2.5 max-w-full">
+        <span class="text-xl shrink-0" aria-hidden="true">🎁</span>
+        <div class="text-left leading-snug">
+          <div class="text-[11px] font-extrabold text-amber-600 uppercase tracking-wide">
+            目標獎勵 • Reward Goal
+          </div>
+          <div id="reward-goal-display" class="text-sm sm:text-base font-black text-amber-950 break-words">
+            揀一份小禮物 / 吃雪糕 🍦
+          </div>
+        </div>
+      </div>
+
+      <!-- Progress Bar & Numeric Counter -->
+      <div class="mt-4 max-w-md mx-auto">
+        <div class="flex items-center justify-between text-xs sm:text-sm font-extrabold text-slate-600 mb-1.5">
+          <span>集章進度 Progress</span>
+          <span id="progress-counter" class="text-sky-600 font-black">0 / 10</span>
+        </div>
+        <div class="w-full h-4 bg-sky-100 rounded-full overflow-hidden border-2 border-sky-200 p-0.5">
+          <div
+            id="progress-bar-fill"
+            class="h-full rounded-full bg-gradient-to-r from-amber-400 via-orange-400 to-pink-400 transition-all duration-500 ease-out"
+            style="width: 0%"
+          ></div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Stamp Icon Picker (6 Fun Kid-Friendly Stamps) -->
+    <section
+      aria-label="選擇印章圖案"
+      class="bg-white/95 border-4 border-amber-200 rounded-3xl p-4 sm:p-5 shadow-storybook mb-5"
+    >
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="text-sm sm:text-base font-extrabold text-amber-950 flex items-center gap-1.5">
+          <span>🎨 揀一個靚印章：</span>
+          <span class="text-xs font-semibold text-amber-600">Pick a Stamp</span>
+        </h2>
+        <span id="selected-stamp-badge" class="text-xs font-extrabold bg-amber-100 text-amber-800 px-2.5 py-1 rounded-full">
+          目前：⭐
+        </span>
+      </div>
+
+      <div id="stamp-picker-row" class="grid grid-cols-6 gap-2 sm:gap-3">
+        <!-- Rendered dynamically by JS -->
+      </div>
+    </section>
+
+    <!-- Main Stamp Card Grid -->
+    <section
+      aria-label="印章卡片"
+      class="bg-white/95 border-4 border-sky-200 rounded-[2rem] p-4 sm:p-6 shadow-storybook"
+    >
+      <div id="stamp-grid" class="grid grid-cols-2 sm:grid-cols-5 gap-3 sm:gap-4 place-items-center">
+        <!-- Stamp slots rendered dynamically by JS -->
+      </div>
+
+      <p id="grid-helper-hint" class="text-center text-xs sm:text-sm font-bold text-slate-400 mt-5">
+        👆 輕輕撳一下空白圓圈，就蓋到印章喇！
+      </p>
+    </section>
+
+    <!-- Politeness Habits Quick Reference Strip -->
+    <section
+      aria-label="禮貌好習慣"
+      class="mt-5 bg-white/95 border-4 border-emerald-200 rounded-3xl p-4 sm:p-5 shadow-storybook"
+    >
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="text-sm sm:text-base font-extrabold text-emerald-900 flex items-center gap-1.5">
+          <span>💛 禮貌小任務：</span>
+          <span class="text-xs font-semibold text-emerald-600">How to earn a stamp</span>
+        </h2>
+      </div>
+      <div id="habits-summary-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+        <!-- Rendered dynamically by JS -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =========================================================
+   * MODAL 1: PARENT UNLOCK (MATH QUESTION ONLY — NO PIN)
+   * ========================================================= -->
+  <div
+    id="unlock-modal"
+    class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/55 backdrop-blur-sm p-4"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="unlock-title"
+  >
+    <div id="unlock-card" class="animate-pop-in bg-white border-4 border-amber-300 rounded-[2rem] max-w-sm w-full p-5 sm:p-6 shadow-2xl">
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between mb-3">
+        <div class="flex items-center gap-2.5">
+          <span class="text-2xl" aria-hidden="true">🧮</span>
+          <div>
+            <h2 id="unlock-title" class="text-lg font-black text-slate-800 leading-tight">家長解鎖</h2>
+            <p class="text-xs font-bold text-slate-400">Parent Unlock</p>
+          </div>
+        </div>
+        <button
+          id="close-unlock-btn"
+          type="button"
+          aria-label="關閉解鎖視窗"
+          class="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 font-black flex items-center justify-center focus:outline-none"
+        >
+          ✕
+        </button>
+      </div>
+
+      <p class="text-center text-xs sm:text-sm font-bold text-slate-600 mb-3">
+        請回答以下算術題以進入家長模式
+      </p>
+
+      <!-- Math Question Display Box -->
+      <div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-3.5 text-center mb-3">
+        <div id="math-question-text" class="text-3xl sm:text-4xl font-black text-amber-950 tracking-wider select-none">
+          6 × 7 = ?
+        </div>
+        <button
+          id="refresh-math-btn"
+          type="button"
+          class="mt-2 inline-flex items-center gap-1 text-xs font-extrabold text-amber-700 hover:text-amber-900 bg-amber-100/80 hover:bg-amber-200/80 px-3 py-1 rounded-full transition-colors"
+        >
+          <span>🔄</span>
+          <span>換一題 (New Question)</span>
+        </button>
+      </div>
+
+      <!-- Answer Display / Keyboard Input -->
+      <form id="math-unlock-form" class="mb-3">
+        <input
+          id="math-answer-input"
+          type="text"
+          inputmode="numeric"
+          pattern="[0-9]*"
+          autocomplete="off"
+          placeholder="輸入答案..."
+          aria-label="算術題答案"
+          class="w-full text-center text-2xl font-black px-4 py-2.5 rounded-2xl border-2 border-sky-200 focus:border-sky-400 focus:outline-none bg-slate-50 focus:bg-white text-slate-800 tracking-widest"
+        />
+        <p id="math-error-msg" class="text-center text-xs font-extrabold text-rose-500 h-4 mt-1.5"></p>
+      </form>
+
+      <!-- Large Touch-Friendly On-Screen Number Pad (0-9, Clear, Backspace, Unlock) -->
+      <div class="grid grid-cols-3 gap-2">
+        <button type="button" data-math-key="1" class="math-key btn-chunky py-3 rounded-2xl bg-sky-50 hover:bg-sky-100 border-2 border-sky-200 text-xl font-black text-sky-900">1</button>
+        <button type="button" data-math-key="2" class="math-key btn-chunky py-3 rounded-2xl bg-sky-50 hover:bg-sky-100 border-2 border-sky-200 text-xl font-black text-sky-900">2</button>
+        <button type="button" data-math-key="3" class="math-key btn-chunky py-3 rounded-2xl bg-sky-50 hover:bg-sky-100 border-2 border-sky-200 text-xl font-black text-sky-900">3</button>
+        <button type="button" data-math-key="4" class="math-key btn-chunky py-3 rounded-2xl bg-sky-50 hover:bg-sky-100 border-2 border-sky-200 text-xl font-black text-sky-900">4</button>
+        <button type="button" data-math-key="5" class="math-key btn-chunky py-3 rounded-2xl bg-sky-50 hover:bg-sky-100 border-2 border-sky-200 text-xl font-black text-sky-900">5</button>
+        <button type="button" data-math-key="6" class="math-key btn-chunky py-3 rounded-2xl bg-sky-50 hover:bg-sky-100 border-2 border-sky-200 text-xl font-black text-sky-900">6</button>
+        <button type="button" data-math-key="7" class="math-key btn-chunky py-3 rounded-2xl bg-sky-50 hover:bg-sky-100 border-2 border-sky-200 text-xl font-black text-sky-900">7</button>
+        <button type="button" data-math-key="8" class="math-key btn-chunky py-3 rounded-2xl bg-sky-50 hover:bg-sky-100 border-2 border-sky-200 text-xl font-black text-sky-900">8</button>
+        <button type="button" data-math-key="9" class="math-key btn-chunky py-3 rounded-2xl bg-sky-50 hover:bg-sky-100 border-2 border-sky-200 text-xl font-black text-sky-900">9</button>
+        <button type="button" id="math-clear-btn" class="btn-chunky py-3 rounded-2xl bg-slate-100 hover:bg-slate-200 border-2 border-slate-200 text-sm font-extrabold text-slate-600">清除</button>
+        <button type="button" data-math-key="0" class="math-key btn-chunky py-3 rounded-2xl bg-sky-50 hover:bg-sky-100 border-2 border-sky-200 text-xl font-black text-sky-900">0</button>
+        <button type="button" id="math-back-btn" class="btn-chunky py-3 rounded-2xl bg-amber-50 hover:bg-amber-100 border-2 border-amber-200 text-lg font-black text-amber-800" aria-label="刪除一格">⌫</button>
+      </div>
+
+      <button
+        id="math-unlock-submit-btn"
+        type="button"
+        class="btn-chunky mt-3 w-full py-3.5 bg-emerald-500 hover:bg-emerald-600 text-white font-black text-base rounded-2xl border-b-4 border-emerald-700 shadow-sm"
+      >
+        🔓 解鎖 (Unlock)
+      </button>
+    </div>
+  </div>
+
+  <!-- =========================================================
+   * MODAL 2: FULL-CARD CELEBRATION & REWARD CLAIM
+   * ========================================================= -->
+  <div
+    id="celebration-modal"
+    class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/55 backdrop-blur-sm p-4"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="celebration-title"
+  >
+    <div class="animate-pop-in bg-white border-4 border-amber-300 rounded-[2rem] max-w-md w-full p-6 sm:p-7 text-center shadow-2xl">
+      <div class="text-6xl mb-3 select-none">🎉🏆🎉</div>
+      <h2 id="celebration-title" class="text-2xl sm:text-3xl font-black text-amber-600 mb-1">
+        恭喜 Adrian 集滿喇！
+      </h2>
+      <p class="text-sm font-extrabold text-sky-600 mb-4">
+        Congratulations! Card Complete!
+      </p>
+
+      <div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-4 mb-5">
+        <div class="text-xs font-extrabold text-amber-600 uppercase mb-1">
+          你的獎勵 • Your Reward
+        </div>
+        <div id="celebration-reward-text" class="text-lg sm:text-xl font-black text-amber-950">
+          揀一份小禮物 / 吃雪糕 🍦
+        </div>
+      </div>
+
+      <button
+        id="claim-reward-btn"
+        type="button"
+        class="btn-chunky w-full py-4 bg-gradient-to-r from-amber-400 to-orange-400 hover:from-amber-500 hover:to-orange-500 text-amber-950 font-black text-base sm:text-lg rounded-2xl border-b-4 border-orange-600 shadow-md"
+      >
+        🎁 領取獎勵 & 開始新卡片
+      </button>
+      <button
+        id="close-celebration-btn"
+        type="button"
+        class="mt-3 text-xs sm:text-sm font-bold text-slate-400 hover:text-slate-600 py-1 px-3"
+      >
+        先看看印章卡 (View Card)
+      </button>
+    </div>
+  </div>
+
+  <!-- =========================================================
+   * MODAL 3: PARENT SETTINGS (⚙️ 家長設定)
+   * ========================================================= -->
+  <div
+    id="settings-modal"
+    class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/55 backdrop-blur-sm p-3 sm:p-4"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="settings-title"
+  >
+    <div class="animate-pop-in bg-white border-4 border-sky-200 rounded-[2rem] max-w-lg w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between px-5 py-4 border-b-2 border-slate-100 bg-sky-50/60">
+        <div class="flex items-center gap-2">
+          <span class="text-xl" aria-hidden="true">⚙️</span>
+          <div>
+            <h2 id="settings-title" class="text-lg font-black text-slate-800 leading-tight">家長設定</h2>
+            <p class="text-xs font-bold text-slate-400">Parent Settings</p>
+          </div>
+        </div>
+        <button
+          id="close-settings-btn"
+          type="button"
+          aria-label="關閉設定"
+          class="w-9 h-9 rounded-full bg-white border border-slate-200 hover:bg-slate-100 text-slate-500 font-black flex items-center justify-center"
+        >
+          ✕
+        </button>
+      </div>
+
+      <!-- Scrollable Settings Content -->
+      <div class="p-5 overflow-y-auto custom-scroll space-y-5">
+
+        <!-- 1. Parent Lock Toggle (Math Question Only — No PIN) -->
+        <div class="bg-amber-50/80 border-2 border-amber-200 rounded-2xl p-4">
+          <div class="flex items-center justify-between gap-3">
+            <div>
+              <h3 class="text-sm font-extrabold text-amber-950 flex items-center gap-1.5">
+                <span>🔒</span>
+                <span>家長鎖 (Parent Lock)</span>
+              </h3>
+              <p class="text-xs text-amber-800/80 mt-0.5 leading-relaxed">
+                開啟後，每次打開頁面會自動鎖定，需答對算術題才可蓋印或進入設定
+              </p>
+            </div>
+            <button
+              id="toggle-parent-lock-btn"
+              type="button"
+              role="switch"
+              aria-checked="true"
+              class="shrink-0 w-14 h-8 rounded-full p-1 transition-colors bg-emerald-500 focus:outline-none"
+            >
+              <span id="toggle-parent-lock-knob" class="block w-6 h-6 rounded-full bg-white shadow transition-transform translate-x-6"></span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 2. Edit Reward Goal -->
+        <div class="bg-slate-50 border-2 border-slate-200/80 rounded-2xl p-4">
+          <label for="reward-input" class="block text-sm font-extrabold text-slate-800 mb-2">
+            🎁 目標獎勵 (Reward Goal)
+          </label>
+          <div class="flex gap-2">
+            <input
+              id="reward-input"
+              type="text"
+              maxlength="60"
+              placeholder="例如：揀一份小禮物 / 吃雪糕 🍦"
+              class="flex-1 min-w-0 px-3.5 py-2.5 rounded-xl border-2 border-slate-200 focus:border-sky-400 focus:outline-none text-sm font-bold bg-white"
+            />
+            <button
+              id="save-reward-btn"
+              type="button"
+              class="btn-chunky shrink-0 px-4 py-2.5 bg-sky-500 hover:bg-sky-600 text-white font-bold text-xs sm:text-sm rounded-xl border-b-4 border-sky-700"
+            >
+              儲存
+            </button>
+          </div>
+        </div>
+
+        <!-- 3. Card Size Selector (5 / 10 / 15 / 20) -->
+        <div class="bg-slate-50 border-2 border-slate-200/80 rounded-2xl p-4">
+          <h3 class="text-sm font-extrabold text-slate-800 mb-2">
+            📏 印章格數 (Card Size)
+          </h3>
+          <div id="card-size-options" class="grid grid-cols-4 gap-2">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <!-- 4. Quick Card Actions: Undo Last Stamp & Reset Card (with safe inline confirm) -->
+        <div class="bg-slate-50 border-2 border-slate-200/80 rounded-2xl p-4 space-y-2.5">
+          <h3 class="text-sm font-extrabold text-slate-800">
+            🛠️ 卡片管理 (Card Actions)
+          </h3>
+
+          <button
+            id="undo-stamp-btn"
+            type="button"
+            class="btn-chunky w-full py-3 px-4 bg-amber-100 hover:bg-amber-200 border-2 border-amber-300 text-amber-950 font-extrabold text-sm rounded-xl flex items-center justify-center gap-2"
+          >
+            <span>↩️</span>
+            <span>復原最後一個印章 (Undo Last Stamp)</span>
+          </button>
+
+          <button
+            id="reset-card-btn"
+            type="button"
+            class="btn-chunky w-full py-3 px-4 bg-rose-50 hover:bg-rose-100 border-2 border-rose-200 text-rose-700 font-extrabold text-sm rounded-xl flex items-center justify-center gap-2"
+          >
+            <span>🔄</span>
+            <span>重設卡片 (Reset Card)</span>
+          </button>
+
+          <!-- Inline Confirmation Box (No browser confirm()) -->
+          <div id="reset-confirm-box" class="hidden bg-rose-50 border-2 border-rose-300 rounded-xl p-3 text-center space-y-2">
+            <p class="text-xs font-extrabold text-rose-800">
+              確定要清除目前卡片上的所有印章嗎？(已完成卡片次數會保留)
+            </p>
+            <div class="flex gap-2">
+              <button
+                id="confirm-reset-yes-btn"
+                type="button"
+                class="btn-chunky flex-1 py-2 bg-rose-500 hover:bg-rose-600 text-white font-black text-xs rounded-lg border-b-2 border-rose-700"
+              >
+                確定重設
+              </button>
+              <button
+                id="confirm-reset-cancel-btn"
+                type="button"
+                class="btn-chunky flex-1 py-2 bg-white hover:bg-slate-100 text-slate-600 font-bold text-xs rounded-lg border border-slate-300"
+              >
+                取消
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. Interactive Politeness Habits Checklist -->
+        <div class="bg-emerald-50/70 border-2 border-emerald-200 rounded-2xl p-4">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="text-sm font-extrabold text-emerald-950">
+              💛 禮貌好習慣清單 (Politeness Checklist)
+            </h3>
+            <span class="text-[11px] font-bold text-emerald-600">可勾選今日表現</span>
+          </div>
+          <p class="text-xs text-emerald-800/80 mb-3">
+            和 Adrian 一起看看今天做到了哪些禮貌小任務！
+          </p>
+          <div id="settings-habits-list" class="space-y-2">
+            <!-- Rendered dynamically by JS -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+   * APPLICATION JAVASCRIPT (SELF-CONTAINED)
+   * ========================================================= -->
+  <script>
+    (() => {
+      'use strict';
+
+      /* =========================================================
+       * 1. CONSTANTS & DEFAULT CONFIGURATION
+       * ========================================================= */
+      const STORAGE_KEY = 'adrian_politeness_stamps_v2';
+
+      const STAMP_ICONS = [
+        { icon: '⭐', label: '星星 Star' },
+        { icon: '🦖', label: '恐龍 Dino' },
+        { icon: '🚀', label: '火箭 Rocket' },
+        { icon: '🚗', label: '車車 Car' },
+        { icon: '🦁', label: '獅子 Lion' },
+        { icon: '🌈', label: '彩虹 Rainbow' },
+      ];
+
+      const CARD_SIZES = [5, 10, 15, 20];
+
+      const ENCOURAGING_MESSAGES = [
+        '好有禮貌！So polite! 🌟',
+        '太棒了 Adrian！Awesome! 🎉',
+        '懂得說謝謝！Great manners! 💛',
+        '真係好乖！Good job Adrian! 🦖',
+        '禮貌小超人！Polite Superhero! 🚀',
+        '好叻仔呀！Well done! 🌈',
+      ];
+
+      const POLITENESS_HABITS = [
+        { id: 'please', emoji: '🙏', zh: '說「請 / 唔該」', en: 'Say Please', theme: 'emerald' },
+        { id: 'thanks', emoji: '🥰', zh: '說「謝謝 / 多謝」', en: 'Say Thank You', theme: 'amber' },
+        { id: 'sorry', emoji: '🤝', zh: '說「對不起」', en: 'Say Sorry', theme: 'sky' },
+        { id: 'greet', emoji: '👋', zh: '主動打招呼', en: 'Say Hi / Bye', theme: 'pink' },
+        { id: 'share', emoji: '🧸', zh: '願意分享', en: 'Willing to Share', theme: 'violet' },
+        { id: 'voice', emoji: '🗣️', zh: '好好說話', en: 'Gentle Voice', theme: 'orange' },
+      ];
+
+      /* =========================================================
+       * 2. STATE MANAGEMENT & LOCALSTORAGE PERSISTENCE
+       * ========================================================= */
+      function getDefaultState() {
+        return {
+          totalStamps: 10,
+          // Map of slotIndex -> { icon: string, date: string }
+          stamps: {},
+          // Ordered array of stamped indices so Undo removes the exact latest stamp
+          stampOrder: [],
+          selectedIcon: '⭐',
+          rewardText: '揀一份小禮物 / 吃雪糕 🍦',
+          completedCards: 0,
+          soundEnabled: true,
+          parentLockEnabled: true,
+          // Checklist map: habitId -> boolean
+          checklist: {},
+        };
+      }
+
+      function loadState() {
+        const defaults = getDefaultState();
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) return defaults;
+          const parsed = JSON.parse(raw);
+          const merged = {
+            ...defaults,
+            ...parsed,
+            stamps: parsed.stamps && typeof parsed.stamps === 'object' ? parsed.stamps : {},
+            stampOrder: Array.isArray(parsed.stampOrder) ? parsed.stampOrder : [],
+            checklist: parsed.checklist && typeof parsed.checklist === 'object' ? parsed.checklist : {},
+          };
+          if (!CARD_SIZES.includes(merged.totalStamps)) {
+            merged.totalStamps = 10;
+          }
+          return merged;
+        } catch (err) {
+          console.warn('Could not load saved state, using defaults.', err);
+          return defaults;
+        }
+      }
+
+      function saveState() {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        } catch (err) {
+          console.warn('Could not save state to localStorage.', err);
+        }
+      }
+
+      let state = loadState();
+
+      // Session-only unlock state: NEVER persisted so page load/refresh always starts locked if Parent Lock is ON
+      let isUnlocked = !state.parentLockEnabled;
+      let pendingUnlockAction = null;
+      let currentMathChallenge = null;
+      let lastStampedSlot = null;
+      let toastTimeout = null;
+
+      /* =========================================================
+       * 3. HELPER UTILITIES
+       * ========================================================= */
+      function getTodayShortDate() {
+        const now = new Date();
+        return `${now.getMonth() + 1}/${now.getDate()}`;
+      }
+
+      function getStampedCount() {
+        let count = 0;
+        for (let i = 0; i < state.totalStamps; i++) {
+          if (state.stamps[i]) count++;
+        }
+        return count;
+      }
+
+      function getNextEmptySlot() {
+        for (let i = 0; i < state.totalStamps; i++) {
+          if (!state.stamps[i]) return i;
+        }
+        return -1;
+      }
+
+      function showToast(message) {
+        const toast = document.getElementById('encouragement-toast');
+        const msgEl = document.getElementById('toast-message');
+        msgEl.textContent = message;
+
+        toast.classList.remove('opacity-0', '-translate-y-4');
+        toast.classList.add('opacity-100', 'translate-y-0');
+
+        clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(() => {
+          toast.classList.add('opacity-0', '-translate-y-4');
+          toast.classList.remove('opacity-100', 'translate-y-0');
+        }, 2400);
+      }
+
+      /* =========================================================
+       * 4. WEB AUDIO API SYNTHESIZER (NO EXTERNAL SOUND FILES)
+       * ========================================================= */
+      const SoundManager = {
+        ctx: null,
+
+        ensureContext() {
+          if (!state.soundEnabled) return null;
+          try {
+            if (!this.ctx) {
+              const AudioCtx = window.AudioContext || window.webkitAudioContext;
+              if (!AudioCtx) return null;
+              this.ctx = new AudioCtx();
+            }
+            if (this.ctx.state === 'suspended') {
+              this.ctx.resume();
+            }
+            return this.ctx;
+          } catch (err) {
+            return null;
+          }
+        },
+
+        playTone(freq, startTime, duration, type = 'sine', volume = 0.16) {
+          const ctx = this.ctx;
+          if (!ctx) return;
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = type;
+          osc.frequency.setValueAtTime(freq, startTime);
+
+          gain.gain.setValueAtTime(0.001, startTime);
+          gain.gain.exponentialRampToValueAtTime(volume, startTime + 0.015);
+          gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(startTime);
+          osc.stop(startTime + duration + 0.02);
+        },
+
+        // Cheerful ascending chime when a new stamp is placed
+        playStamp() {
+          const ctx = this.ensureContext();
+          if (!ctx) return;
+          const now = ctx.currentTime;
+          this.playTone(523.25, now, 0.14, 'triangle', 0.18);        // C5
+          this.playTone(659.25, now + 0.07, 0.16, 'triangle', 0.18); // E5
+          this.playTone(783.99, now + 0.14, 0.22, 'sine', 0.2);      // G5
+          this.playTone(1046.5, now + 0.21, 0.3, 'sine', 0.18);      // C6
+        },
+
+        // Happy sparkle chime when Adrian taps an already-stamped icon
+        playPlayfulBounce() {
+          const ctx = this.ensureContext();
+          if (!ctx) return;
+          const now = ctx.currentTime;
+          [587.33, 880, 1174.66].forEach((freq, idx) => {
+            this.playTone(freq, now + idx * 0.045, 0.16, 'sine', 0.13);
+          });
+        },
+
+        // Soft pop for UI buttons
+        playPop() {
+          const ctx = this.ensureContext();
+          if (!ctx) return;
+          const now = ctx.currentTime;
+          this.playTone(620, now, 0.07, 'sine', 0.1);
+        },
+
+        // Soft descending chime for Undo
+        playUndo() {
+          const ctx = this.ensureContext();
+          if (!ctx) return;
+          const now = ctx.currentTime;
+          this.playTone(440, now, 0.12, 'sine', 0.11);
+          this.playTone(330, now + 0.08, 0.16, 'sine', 0.11);
+        },
+
+        // Gentle error buzz for wrong math answer
+        playError() {
+          const ctx = this.ensureContext();
+          if (!ctx) return;
+          const now = ctx.currentTime;
+          this.playTone(220, now, 0.13, 'sawtooth', 0.06);
+          this.playTone(185, now + 0.11, 0.16, 'sawtooth', 0.06);
+        },
+
+        // Full-card celebration fanfare melody
+        playFanfare() {
+          const ctx = this.ensureContext();
+          if (!ctx) return;
+          const now = ctx.currentTime;
+          const melody = [
+            { f: 523.25, t: 0.0, d: 0.15 },  // C5
+            { f: 659.25, t: 0.13, d: 0.15 }, // E5
+            { f: 783.99, t: 0.26, d: 0.15 }, // G5
+            { f: 1046.5, t: 0.4, d: 0.24 },  // C6
+            { f: 783.99, t: 0.62, d: 0.14 }, // G5
+            { f: 1046.5, t: 0.76, d: 0.55 }, // C6!
+          ];
+          melody.forEach((n) => {
+            this.playTone(n.f, now + n.t, n.d, 'triangle', 0.2);
+          });
+        },
+      };
+
+      /* =========================================================
+       * 5. RESPONSIVE HTML5 CANVAS CONFETTI ENGINE
+       * ========================================================= */
+      const Confetti = {
+        canvas: null,
+        ctx: null,
+        particles: [],
+        animId: null,
+
+        init() {
+          this.canvas = document.getElementById('confetti-canvas');
+          this.ctx = this.canvas.getContext('2d');
+          this.resize();
+          window.addEventListener('resize', () => this.resize());
+        },
+
+        resize() {
+          if (!this.canvas) return;
+          this.canvas.width = window.innerWidth;
+          this.canvas.height = window.innerHeight;
+        },
+
+        launch() {
+          this.resize();
+          const colors = ['#f59e0b', '#ec4899', '#38bdf8', '#34d399', '#a78bfa', '#fb7185', '#facc15'];
+          this.particles = [];
+          const count = 130;
+
+          for (let i = 0; i < count; i++) {
+            this.particles.push({
+              x: Math.random() * this.canvas.width,
+              y: -20 - Math.random() * 180,
+              w: 7 + Math.random() * 7,
+              h: 5 + Math.random() * 5,
+              vx: (Math.random() - 0.5) * 6,
+              vy: 2.5 + Math.random() * 4.5,
+              rot: Math.random() * Math.PI * 2,
+              vRot: (Math.random() - 0.5) * 0.22,
+              color: colors[Math.floor(Math.random() * colors.length)],
+              opacity: 1,
+            });
+          }
+
+          if (this.animId) cancelAnimationFrame(this.animId);
+          this.animate();
+        },
+
+        animate() {
+          const ctx = this.ctx;
+          ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+          let alive = 0;
+          for (const p of this.particles) {
+            p.x += p.vx;
+            p.y += p.vy;
+            p.vy += 0.06; // Gentle gravity
+            p.rot += p.vRot;
+
+            if (p.y > this.canvas.height - 60) {
+              p.opacity -= 0.025;
+            }
+
+            if (p.opacity > 0 && p.y < this.canvas.height + 40) {
+              alive++;
+              ctx.save();
+              ctx.globalAlpha = Math.max(0, p.opacity);
+              ctx.translate(p.x, p.y);
+              ctx.rotate(p.rot);
+              ctx.fillStyle = p.color;
+              ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+              ctx.restore();
+            }
+          }
+
+          if (alive > 0) {
+            this.animId = requestAnimationFrame(() => this.animate());
+          } else {
+            ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            this.animId = null;
+          }
+        },
+      };
+
+      /* =========================================================
+       * 6. FLOATING SPARKLES EFFECT AROUND STAMPED SLOTS
+       * ========================================================= */
+      function spawnSlotSparkles(slotElement) {
+        const sparkles = ['✨', '⭐', '🌟', '💛', '🎉'];
+        for (let i = 0; i < 7; i++) {
+          const el = document.createElement('span');
+          el.className = 'sparkle-particle';
+          el.textContent = sparkles[Math.floor(Math.random() * sparkles.length)];
+
+          const angle = (Math.PI * 2 * i) / 7 + (Math.random() - 0.5) * 0.4;
+          const dist = 36 + Math.random() * 28;
+          el.style.left = '50%';
+          el.style.top = '50%';
+          el.style.setProperty('--tx', `${Math.cos(angle) * dist}px`);
+          el.style.setProperty('--ty', `${Math.sin(angle) * dist - 14}px`);
+
+          slotElement.appendChild(el);
+          setTimeout(() => el.remove(), 720);
+        }
+      }
+
+      /* =========================================================
+       * 7. UI RENDERING FUNCTIONS
+       * ========================================================= */
+      function renderHeaderAndLockBanner() {
+        document.getElementById('completed-count').textContent = state.completedCards;
+        document.getElementById('reward-goal-display').textContent = state.rewardText;
+
+        const stampedCount = getStampedCount();
+        const percent = state.totalStamps > 0 ? Math.min(100, Math.round((stampedCount / state.totalStamps) * 100)) : 0;
+        document.getElementById('progress-counter').textContent = `${stampedCount} / ${state.totalStamps}`;
+        document.getElementById('progress-bar-fill').style.width = `${percent}%`;
+
+        // Sound button
+        const soundBtn = document.getElementById('sound-toggle-btn');
+        soundBtn.textContent = state.soundEnabled ? '🔊' : '🔇';
+        soundBtn.title = state.soundEnabled ? '關閉音效' : '開啟音效';
+
+        // Top Parent Lock Pill & Status Banner
+        const lockBtn = document.getElementById('lock-status-btn');
+        const lockIcon = document.getElementById('lock-status-icon');
+        const lockLabel = document.getElementById('lock-status-label');
+        const lockBanner = document.getElementById('lock-banner');
+
+        if (!state.parentLockEnabled) {
+          lockBtn.className = 'btn-chunky inline-flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200 border-2 border-slate-200 text-slate-500 rounded-full px-3 py-1.5 text-xs sm:text-sm font-bold shadow-sm focus:outline-none';
+          lockIcon.textContent = '🔓';
+          lockLabel.textContent = '家長鎖：已關閉';
+          lockBanner.classList.add('hidden');
+          lockBanner.classList.remove('flex');
+        } else if (!isUnlocked) {
+          // Locked (Kid Mode)
+          lockBtn.className = 'btn-chunky inline-flex items-center gap-1.5 bg-amber-100 hover:bg-amber-200 border-2 border-amber-300 text-amber-900 rounded-full px-3 py-1.5 text-xs sm:text-sm font-extrabold shadow-sm focus:outline-none';
+          lockIcon.textContent = '🔒';
+          lockLabel.textContent = '兒童模式';
+
+          lockBanner.className = 'mb-4 rounded-2xl px-4 py-2.5 border-2 flex items-center justify-between gap-2 text-xs sm:text-sm font-bold bg-amber-50/95 border-amber-200 text-amber-900 shadow-sm';
+          lockBanner.innerHTML = `
+            <div class="flex items-center gap-2 leading-snug">
+              <span class="text-base shrink-0">🔒</span>
+              <span>兒童模式 (Kid Mode) — Adrian 可以撳已蓋印章玩聲效，蓋新印章請爸媽解鎖</span>
+            </div>
+            <button
+              type="button"
+              id="banner-unlock-btn"
+              class="shrink-0 btn-chunky bg-amber-400 hover:bg-amber-500 text-amber-950 font-black text-xs px-3 py-1.5 rounded-xl border-b-2 border-amber-600"
+            >
+              🧮 解鎖
+            </button>
+          `;
+          lockBanner.querySelector('#banner-unlock-btn').addEventListener('click', () => {
+            openUnlockModal(null);
+          });
+        } else {
+          // Unlocked (Parent Mode)
+          lockBtn.className = 'btn-chunky inline-flex items-center gap-1.5 bg-emerald-100 hover:bg-emerald-200 border-2 border-emerald-300 text-emerald-900 rounded-full px-3 py-1.5 text-xs sm:text-sm font-extrabold shadow-sm focus:outline-none';
+          lockIcon.textContent = '🔓';
+          lockLabel.textContent = '家長模式';
+
+          lockBanner.className = 'mb-4 rounded-2xl px-4 py-2.5 border-2 flex items-center justify-between gap-2 text-xs sm:text-sm font-bold bg-emerald-50/95 border-emerald-300 text-emerald-900 shadow-sm';
+          lockBanner.innerHTML = `
+            <div class="flex items-center gap-2 leading-snug">
+              <span class="text-base shrink-0">🔓</span>
+              <span>家長模式 (Parent Mode) — 現在可以蓋印章及調整設定</span>
+            </div>
+            <button
+              type="button"
+              id="banner-lock-now-btn"
+              class="shrink-0 btn-chunky bg-emerald-500 hover:bg-emerald-600 text-white font-black text-xs px-3 py-1.5 rounded-xl border-b-2 border-emerald-700"
+            >
+              🔒 立即鎖定 (Lock Now)
+            </button>
+          `;
+          lockBanner.querySelector('#banner-lock-now-btn').addEventListener('click', lockNow);
+        }
+      }
+
+      function renderStampPicker() {
+        const container = document.getElementById('stamp-picker-row');
+        document.getElementById('selected-stamp-badge').textContent = `目前：${state.selectedIcon}`;
+        container.innerHTML = '';
+
+        STAMP_ICONS.forEach((item) => {
+          const isSelected = state.selectedIcon === item.icon;
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.setAttribute('aria-label', `選擇印章 ${item.label}`);
+          btn.className = [
+            'btn-chunky aspect-square rounded-2xl border-2 flex items-center justify-center text-2xl sm:text-3xl focus:outline-none',
+            isSelected
+              ? 'bg-amber-100 border-amber-400 ring-4 ring-amber-200/70 scale-105 shadow-sm'
+              : 'bg-slate-50 border-slate-200 hover:bg-amber-50 hover:border-amber-300',
+          ].join(' ');
+          btn.textContent = item.icon;
+
+          btn.addEventListener('click', () => {
+            state.selectedIcon = item.icon;
+            saveState();
+            SoundManager.playPop();
+            renderStampPicker();
+          });
+
+          container.appendChild(btn);
+        });
+      }
+
+      function renderStampGrid() {
+        const grid = document.getElementById('stamp-grid');
+        grid.innerHTML = '';
+
+        const nextSlot = getNextEmptySlot();
+        const isLockedView = state.parentLockEnabled && !isUnlocked;
+
+        for (let i = 0; i < state.totalStamps; i++) {
+          const stampData = state.stamps[i];
+          const isNext = i === nextSlot;
+
+          const slotBtn = document.createElement('button');
+          slotBtn.type = 'button';
+
+          if (stampData) {
+            // Stamped Slot: Always playful and tappable for Adrian even in Kid Mode
+            const rotDeg = ((i % 3) - 1) * 5;
+            const justStamped = lastStampedSlot === i;
+
+            slotBtn.className = [
+              'relative aspect-square w-full max-w-[136px] mx-auto rounded-full',
+              'bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-50',
+              'border-4 border-amber-400 shadow-md transition-transform active:scale-95',
+              'flex flex-col items-center justify-center p-2 cursor-pointer focus:outline-none',
+            ].join(' ');
+            slotBtn.setAttribute('aria-label', `第 ${i + 1} 個印章：已完成 (${stampData.date})，點擊互動`);
+
+            slotBtn.innerHTML = `
+              <span class="absolute top-1.5 left-1/2 -translate-x-1/2 text-[10px] font-black text-amber-500/80">#${i + 1}</span>
+              <span
+                class="stamp-emoji text-4xl sm:text-5xl leading-none select-none ${justStamped ? 'animate-stamp-slam' : ''}"
+                style="--stamp-rot: ${rotDeg}deg; transform: rotate(${rotDeg}deg);"
+              >${stampData.icon}</span>
+              <span class="mt-1 px-2 py-0.5 rounded-full bg-white/90 border border-amber-200 text-[11px] font-extrabold text-amber-700 leading-none">
+                ${stampData.date}
+              </span>
+            `;
+
+            slotBtn.addEventListener('click', () => handleTapStampedSlot(slotBtn));
+
+            if (justStamped) {
+              setTimeout(() => spawnSlotSparkles(slotBtn), 20);
+            }
+          } else {
+            // Empty Slot
+            slotBtn.className = [
+              'btn-chunky relative aspect-square w-full max-w-[136px] mx-auto rounded-full',
+              'border-4 border-dashed transition-all flex flex-col items-center justify-center p-2 focus:outline-none',
+              isNext && !isLockedView
+                ? 'bg-sky-50/90 border-amber-400 next-slot-highlight hover:bg-amber-50'
+                : 'bg-slate-50/85 border-sky-200 hover:border-amber-300 hover:bg-amber-50/50',
+            ].join(' ');
+            slotBtn.setAttribute(
+              'aria-label',
+              `第 ${i + 1} 個印章格：${isLockedView ? '需家長解鎖蓋印' : '按此蓋印'}`
+            );
+
+            slotBtn.innerHTML = `
+              <span class="text-2xl sm:text-3xl font-black ${isNext && !isLockedView ? 'text-amber-500' : 'text-sky-300'}">${i + 1}</span>
+              <span class="text-[11px] font-bold mt-0.5 ${isNext && !isLockedView ? 'text-amber-600' : 'text-slate-400'}">
+                ${isLockedView ? '🔒 爸媽蓋印' : (isNext ? '撳我蓋印!' : '空白')}
+              </span>
+            `;
+
+            slotBtn.addEventListener('click', () => handleStampSlot(i));
+          }
+
+          grid.appendChild(slotBtn);
+        }
+
+        // Update helper hint
+        const helperHint = document.getElementById('grid-helper-hint');
+        if (isLockedView) {
+          helperHint.textContent = '🔒 兒童模式：Adrian 可以撳已蓋嘅印章聽音效，蓋新印章請爸爸媽媽解鎖！';
+        } else {
+          helperHint.textContent = '👆 輕輕撳一下空白圓圈，就蓋到印章喇！';
+        }
+
+        lastStampedSlot = null;
+      }
+
+      function renderHabitsSummary() {
+        const container = document.getElementById('habits-summary-grid');
+        container.innerHTML = '';
+
+        const themeClasses = {
+          emerald: 'bg-emerald-50/85 border-emerald-100 text-emerald-950',
+          amber: 'bg-amber-50/85 border-amber-100 text-amber-950',
+          sky: 'bg-sky-50/85 border-sky-100 text-sky-950',
+          pink: 'bg-pink-50/85 border-pink-100 text-pink-950',
+          violet: 'bg-violet-50/85 border-violet-100 text-violet-950',
+          orange: 'bg-orange-50/85 border-orange-100 text-orange-950',
+        };
+
+        POLITENESS_HABITS.forEach((habit) => {
+          const checked = Boolean(state.checklist[habit.id]);
+          const card = document.createElement('div');
+          card.className = `rounded-2xl border-2 px-3 py-2 flex items-center justify-between gap-2 ${themeClasses[habit.theme]}`;
+          card.innerHTML = `
+            <div class="flex items-center gap-2 min-w-0">
+              <span class="text-lg shrink-0">${habit.emoji}</span>
+              <div class="leading-tight truncate">
+                <div class="text-xs sm:text-sm font-extrabold truncate">${habit.zh}</div>
+                <div class="text-[11px] font-semibold opacity-70 truncate">${habit.en}</div>
+              </div>
+            </div>
+            ${checked ? '<span class="text-sm shrink-0" title="今日已做到">✅</span>' : ''}
+          `;
+          container.appendChild(card);
+        });
+      }
+
+      function renderSettingsModalContent() {
+        // Parent Lock Toggle Switch
+        const toggleBtn = document.getElementById('toggle-parent-lock-btn');
+        const toggleKnob = document.getElementById('toggle-parent-lock-knob');
+        toggleBtn.setAttribute('aria-checked', String(state.parentLockEnabled));
+        toggleBtn.classList.toggle('bg-emerald-500', state.parentLockEnabled);
+        toggleBtn.classList.toggle('bg-slate-300', !state.parentLockEnabled);
+        toggleKnob.classList.toggle('translate-x-6', state.parentLockEnabled);
+        toggleKnob.classList.toggle('translate-x-0', !state.parentLockEnabled);
+
+        // Reward input
+        document.getElementById('reward-input').value = state.rewardText;
+
+        // Card size buttons
+        const sizeWrap = document.getElementById('card-size-options');
+        sizeWrap.innerHTML = '';
+        CARD_SIZES.forEach((size) => {
+          const active = state.totalStamps === size;
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = [
+            'btn-chunky py-2.5 rounded-xl font-black text-sm border-2 transition-colors',
+            active
+              ? 'bg-sky-500 border-sky-600 text-white shadow-sm'
+              : 'bg-white border-slate-200 text-slate-700 hover:bg-sky-50 hover:border-sky-300',
+          ].join(' ');
+          btn.textContent = `${size} 格`;
+          btn.addEventListener('click', () => {
+            state.totalStamps = size;
+            // Clean up any out-of-range stamps if shrinking card size
+            Object.keys(state.stamps).forEach((k) => {
+              if (Number(k) >= size) delete state.stamps[k];
+            });
+            state.stampOrder = state.stampOrder.filter((idx) => idx < size);
+            saveState();
+            SoundManager.playPop();
+            renderAll();
+            renderSettingsModalContent();
+            showToast(`已調整為 ${size} 格印章卡！`);
+          });
+          sizeWrap.appendChild(btn);
+        });
+
+        // Hide reset confirmation box when reopening
+        document.getElementById('reset-confirm-box').classList.add('hidden');
+
+        // Politeness Habits Checklist in Settings
+        const list = document.getElementById('settings-habits-list');
+        list.innerHTML = '';
+        POLITENESS_HABITS.forEach((habit) => {
+          const checked = Boolean(state.checklist[habit.id]);
+          const row = document.createElement('button');
+          row.type = 'button';
+          row.className = [
+            'w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl border-2 text-left transition-colors',
+            checked
+              ? 'bg-white border-emerald-400 text-emerald-950'
+              : 'bg-white/70 border-emerald-100 text-slate-700 hover:bg-white',
+          ].join(' ');
+
+          row.innerHTML = `
+            <div class="flex items-center gap-2.5">
+              <span class="text-lg">${habit.emoji}</span>
+              <div>
+                <div class="text-xs sm:text-sm font-extrabold">${habit.zh}</div>
+                <div class="text-[11px] font-semibold text-slate-400">${habit.en}</div>
+              </div>
+            </div>
+            <span class="w-6 h-6 rounded-lg border-2 flex items-center justify-center text-xs font-black ${
+              checked ? 'bg-emerald-500 border-emerald-600 text-white' : 'bg-slate-50 border-slate-300 text-transparent'
+            }">✓</span>
+          `;
+
+          row.addEventListener('click', () => {
+            state.checklist[habit.id] = !checked;
+            saveState();
+            SoundManager.playPop();
+            renderHabitsSummary();
+            renderSettingsModalContent();
+          });
+
+          list.appendChild(row);
+        });
+      }
+
+      function renderAll() {
+        renderHeaderAndLockBanner();
+        renderStampPicker();
+        renderStampGrid();
+        renderHabitsSummary();
+      }
+
+      /* =========================================================
+       * 8. INTERACTION HANDLERS & MATH-ONLY PARENT LOCK
+       * ========================================================= */
+      function handleTapStampedSlot(slotElement) {
+        SoundManager.playPlayfulBounce();
+        const emojiEl = slotElement.querySelector('.stamp-emoji');
+        if (emojiEl) {
+          emojiEl.classList.remove('animate-stamp-slam', 'animate-stamp-bounce');
+          void emojiEl.offsetWidth; // Force reflow for repeated taps
+          emojiEl.classList.add('animate-stamp-bounce');
+        }
+        spawnSlotSparkles(slotElement);
+      }
+
+      function handleStampSlot(slotIndex) {
+        if (state.stamps[slotIndex]) return;
+
+        // Require Parent Math Unlock if locked
+        if (state.parentLockEnabled && !isUnlocked) {
+          openUnlockModal(() => handleStampSlot(slotIndex));
+          return;
+        }
+
+        state.stamps[slotIndex] = {
+          icon: state.selectedIcon,
+          date: getTodayShortDate(),
+        };
+        state.stampOrder.push(slotIndex);
+        lastStampedSlot = slotIndex;
+        saveState();
+
+        renderHeaderAndLockBanner();
+        renderStampGrid();
+
+        const stampedCount = getStampedCount();
+        if (stampedCount >= state.totalStamps) {
+          SoundManager.playFanfare();
+          setTimeout(() => {
+            Confetti.launch();
+            openCelebrationModal();
+          }, 340);
+        } else {
+          SoundManager.playStamp();
+          const msg = ENCOURAGING_MESSAGES[Math.floor(Math.random() * ENCOURAGING_MESSAGES.length)];
+          showToast(msg);
+        }
+      }
+
+      /* --- Math Question Generator (Parent-Level Mental Math) --- */
+      function generateMathChallenge() {
+        const types = ['mul', 'add', 'sub'];
+        const type = types[Math.floor(Math.random() * types.length)];
+        let a, b, answer, text;
+
+        if (type === 'mul') {
+          // Single-digit multiplication (e.g. 6 × 7 = ?)
+          a = Math.floor(Math.random() * 6) + 4; // 4..9
+          b = Math.floor(Math.random() * 6) + 3; // 3..8
+          answer = a * b;
+          text = `${a} × ${b} = ?`;
+        } else if (type === 'add') {
+          // Two-digit + single/two-digit addition (e.g. 15 + 8 = ?)
+          a = Math.floor(Math.random() * 16) + 12; // 12..27
+          b = Math.floor(Math.random() * 9) + 6;   // 6..14
+          answer = a + b;
+          text = `${a} + ${b} = ?`;
+        } else {
+          // Two-digit subtraction with borrowing (e.g. 24 − 9 = ?)
+          a = Math.floor(Math.random() * 14) + 16; // 16..29
+          b = Math.floor(Math.random() * 7) + 6;   // 6..12
+          answer = a - b;
+          text = `${a} − ${b} = ?`;
+        }
+
+        currentMathChallenge = { text, answer };
+        document.getElementById('math-question-text').textContent = text;
+        document.getElementById('math-answer-input').value = '';
+        document.getElementById('math-error-msg').textContent = '';
+      }
+
+      function triggerUnlockShake() {
+        const card = document.getElementById('unlock-card');
+        card.classList.remove('animate-shake');
+        void card.offsetWidth;
+        card.classList.add('animate-shake');
+      }
+
+      function openUnlockModal(afterUnlockCallback) {
+        pendingUnlockAction = typeof afterUnlockCallback === 'function' ? afterUnlockCallback : null;
+        generateMathChallenge();
+
+        const modal = document.getElementById('unlock-modal');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }
+
+      function closeUnlockModal() {
+        pendingUnlockAction = null;
+        const modal = document.getElementById('unlock-modal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+
+      function completeUnlock() {
+        isUnlocked = true;
+        const action = pendingUnlockAction;
+        closeUnlockModal();
+        SoundManager.playPop();
+        renderAll();
+        showToast('🔓 已進入家長模式 (Parent Mode)');
+
+        if (action) {
+          action();
+        }
+      }
+
+      function lockNow() {
+        if (!state.parentLockEnabled) return;
+        isUnlocked = false;
+        SoundManager.playPop();
+        closeSettingsModal();
+        renderAll();
+        showToast('🔒 已鎖定為兒童模式 (Kid Mode)');
+      }
+
+      function submitMathAnswer() {
+        if (!currentMathChallenge) return;
+        const input = document.getElementById('math-answer-input');
+        const raw = input.value.trim();
+
+        if (raw !== '' && Number(raw) === currentMathChallenge.answer) {
+          completeUnlock();
+        } else {
+          SoundManager.playError();
+          triggerUnlockShake();
+          document.getElementById('math-error-msg').textContent = '答案不正確，請再試一次！';
+          input.value = '';
+        }
+      }
+
+      /* --- Celebration Modal --- */
+      function openCelebrationModal() {
+        document.getElementById('celebration-reward-text').textContent = state.rewardText;
+        const modal = document.getElementById('celebration-modal');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }
+
+      function closeCelebrationModal() {
+        const modal = document.getElementById('celebration-modal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+
+      function handleClaimRewardAndStartNew() {
+        if (state.parentLockEnabled && !isUnlocked) {
+          openUnlockModal(handleClaimRewardAndStartNew);
+          return;
+        }
+
+        state.completedCards += 1;
+        state.stamps = {};
+        state.stampOrder = [];
+        saveState();
+
+        SoundManager.playPop();
+        closeCelebrationModal();
+        renderAll();
+        showToast('新嘅印章卡開始喇！加油 Adrian！🌟');
+      }
+
+      /* --- Parent Settings Modal --- */
+      function openSettingsModal() {
+        if (state.parentLockEnabled && !isUnlocked) {
+          openUnlockModal(openSettingsModal);
+          return;
+        }
+        renderSettingsModalContent();
+        const modal = document.getElementById('settings-modal');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }
+
+      function closeSettingsModal() {
+        const modal = document.getElementById('settings-modal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+
+      /* =========================================================
+       * 9. EVENT LISTENERS & INITIALIZATION
+       * ========================================================= */
+      function bindEvents() {
+        // Top Lock Status Pill
+        document.getElementById('lock-status-btn').addEventListener('click', () => {
+          if (!state.parentLockEnabled) {
+            openSettingsModal();
+          } else if (isUnlocked) {
+            lockNow();
+          } else {
+            openUnlockModal(null);
+          }
+        });
+
+        // Sound Toggle
+        document.getElementById('sound-toggle-btn').addEventListener('click', () => {
+          state.soundEnabled = !state.soundEnabled;
+          saveState();
+          renderHeaderAndLockBanner();
+          if (state.soundEnabled) SoundManager.playPop();
+        });
+
+        // Settings Open / Close
+        document.getElementById('open-settings-btn').addEventListener('click', () => {
+          SoundManager.playPop();
+          openSettingsModal();
+        });
+        document.getElementById('close-settings-btn').addEventListener('click', closeSettingsModal);
+        document.getElementById('settings-modal').addEventListener('click', (e) => {
+          if (e.target.id === 'settings-modal') closeSettingsModal();
+        });
+
+        // Math Unlock Modal Controls
+        document.getElementById('close-unlock-btn').addEventListener('click', closeUnlockModal);
+        document.getElementById('unlock-modal').addEventListener('click', (e) => {
+          if (e.target.id === 'unlock-modal') closeUnlockModal();
+        });
+        document.getElementById('refresh-math-btn').addEventListener('click', () => {
+          SoundManager.playPop();
+          generateMathChallenge();
+        });
+
+        const mathInput = document.getElementById('math-answer-input');
+        // Allow digits only when typing via keyboard
+        mathInput.addEventListener('input', () => {
+          mathInput.value = mathInput.value.replace(/[^0-9]/g, '').slice(0, 3);
+          document.getElementById('math-error-msg').textContent = '';
+        });
+
+        document.getElementById('math-unlock-form').addEventListener('submit', (e) => {
+          e.preventDefault();
+          submitMathAnswer();
+        });
+
+        document.getElementById('math-unlock-submit-btn').addEventListener('click', submitMathAnswer);
+
+        // On-Screen Number Pad Buttons
+        document.querySelectorAll('.math-key').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            if (mathInput.value.length >= 3) return;
+            mathInput.value += btn.dataset.mathKey;
+            document.getElementById('math-error-msg').textContent = '';
+            SoundManager.playPop();
+          });
+        });
+
+        document.getElementById('math-clear-btn').addEventListener('click', () => {
+          mathInput.value = '';
+          document.getElementById('math-error-msg').textContent = '';
+          SoundManager.playPop();
+        });
+
+        document.getElementById('math-back-btn').addEventListener('click', () => {
+          mathInput.value = mathInput.value.slice(0, -1);
+          document.getElementById('math-error-msg').textContent = '';
+          SoundManager.playPop();
+        });
+
+        // Celebration Modal Controls
+        document.getElementById('claim-reward-btn').addEventListener('click', handleClaimRewardAndStartNew);
+        document.getElementById('close-celebration-btn').addEventListener('click', closeCelebrationModal);
+
+        // Settings: Parent Lock Toggle
+        document.getElementById('toggle-parent-lock-btn').addEventListener('click', () => {
+          state.parentLockEnabled = !state.parentLockEnabled;
+          // Keep unlocked during current settings session so parent can finish edits
+          isUnlocked = true;
+          saveState();
+          SoundManager.playPop();
+          renderHeaderAndLockBanner();
+          renderStampGrid();
+          renderSettingsModalContent();
+          showToast(
+            state.parentLockEnabled
+              ? '🔒 已開啟家長鎖（重新整理後將自動鎖定）'
+              : '🔓 已關閉家長鎖'
+          );
+        });
+
+        // Settings: Save Reward Goal
+        document.getElementById('save-reward-btn').addEventListener('click', () => {
+          const val = document.getElementById('reward-input').value.trim();
+          state.rewardText = val || '揀一份小禮物 / 吃雪糕 🍦';
+          saveState();
+          SoundManager.playPop();
+          renderHeaderAndLockBanner();
+          showToast('🎁 已更新目標獎勵！');
+        });
+
+        // Settings: Undo Last Stamp
+        document.getElementById('undo-stamp-btn').addEventListener('click', () => {
+          // Find the most recent valid stamped slot
+          let removed = false;
+          while (state.stampOrder.length > 0) {
+            const lastIdx = state.stampOrder.pop();
+            if (state.stamps[lastIdx]) {
+              delete state.stamps[lastIdx];
+              removed = true;
+              break;
+            }
+          }
+          // Fallback if stampOrder was empty but stamps exist
+          if (!removed) {
+            const keys = Object.keys(state.stamps).map(Number).sort((a, b) => b - a);
+            if (keys.length > 0) {
+              delete state.stamps[keys[0]];
+              removed = true;
+            }
+          }
+
+          if (removed) {
+            saveState();
+            SoundManager.playUndo();
+            renderHeaderAndLockBanner();
+            renderStampGrid();
+            showToast('↩️ 已復原最後一個印章');
+          } else {
+            showToast('目前還沒有印章可以復原喔');
+          }
+        });
+
+        // Settings: Reset Card (Two-Step Inline Confirmation)
+        document.getElementById('reset-card-btn').addEventListener('click', () => {
+          SoundManager.playPop();
+          document.getElementById('reset-confirm-box').classList.remove('hidden');
+        });
+
+        document.getElementById('confirm-reset-cancel-btn').addEventListener('click', () => {
+          document.getElementById('reset-confirm-box').classList.add('hidden');
+        });
+
+        document.getElementById('confirm-reset-yes-btn').addEventListener('click', () => {
+          state.stamps = {};
+          state.stampOrder = [];
+          saveState();
+          SoundManager.playUndo();
+          document.getElementById('reset-confirm-box').classList.add('hidden');
+          renderHeaderAndLockBanner();
+          renderStampGrid();
+          showToast('🔄 已重設目前印章卡');
+        });
+      }
+
+      // Initialize app on load
+      window.addEventListener('DOMContentLoaded', () => {
+        Confetti.init();
+        bindEvents();
+        renderAll();
+      });
+    })();
+  </script>
+</body>
+</html>
